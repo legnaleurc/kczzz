@@ -101,13 +101,13 @@ el = ticks.EventLoop()
 imgs = ui.Library()
 
 
-@el.every(<span class="dig">10</span>)
+@el.daemon(<span class="dig">10</span>, <span class="dig">99L</span>)
 <span class="kw">def</span> dismissDMMError():
     <span class="kw">if</span> exists(imgs.browserAlert):
         <span class="skw">click</span>(imgs.browserAlertButtonCancel)
 
 
-@el.every(<span class="dig">10</span>)
+@el.daemon(<span class="dig">10</span>, <span class="dig">98L</span>)
 <span class="kw">def</span> dismissKanColleError():
     <span class="kw">if</span> exists(imgs.systemScreenError):
         <span class="skw">type</span>(Key.F5)
@@ -116,7 +116,7 @@ imgs = ui.Library()
         <span class="skw">wait</span>(imgs.mainMenuButtonGo, <span class="dig">30</span>)
 
 
-@el.every(<span class="dig">60</span>)
+@el.daemon(<span class="dig">60</span>)
 <span class="kw">def</span> repair():
     <span class="skw">click</span>(imgs.mainMenuButtonRepair)
     <span class="skw">wait</span>(imgs.dockMenuLabel, <span class="dig">20</span>)

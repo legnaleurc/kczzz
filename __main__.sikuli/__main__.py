@@ -29,13 +29,13 @@ el = ticks.EventLoop()
 imgs = ui.Library()
 
 
-@el.every(10)
+@el.daemon(10, 99L)
 def dismissDMMError():
     if exists(imgs.browserAlert):
         click(imgs.browserAlertButtonCancel)
 
 
-@el.every(10)
+@el.daemon(10, 98L)
 def dismissKanColleError():
     if exists(imgs.systemScreenError):
         type(Key.F5)
@@ -44,7 +44,7 @@ def dismissKanColleError():
         wait(imgs.mainMenuButtonGo, 30)
 
 
-@el.every(60)
+@el.daemon(60)
 def repair():
     click(imgs.mainMenuButtonRepair)
     wait(imgs.dockMenuLabel, 20)
