@@ -52,10 +52,14 @@ class _EventLoop(object):
     def __init__(self, stopper):
         # keep timer objects to cleanup
         self._timers = []
+        # prevent race condition
+        self._timerLock = threading.Lock()
         # check if about to close
         self._stopper = stopper
         # true if about to close
         self._stop = False
+        # prevent race condition
+        self._stopLock = threading.Lock()
         # the worker that do real jobs
         # it will only run one job at a time
         self._worker = _Worker(self)
@@ -70,14 +74,21 @@ class _EventLoop(object):
         task.start()
 
     def add(self, timer):
+        self._timerLock.acquire()
         self._timers.append(timer)
+        self._timerLock.release()
 
     def remove(self, timer):
+        self._timerLock.acquire()
         self._timers.remove(timer)
+        self._timerLock.release()
 
     @property
     def stop(self):
-        return self._stop
+        self._stopLock.acquire()
+        tmp = self._stop
+        self._stopLock.release()
+        return tmp
 
     @property
     def worker(self):
@@ -85,9 +96,14 @@ class _EventLoop(object):
 
     def _check(self):
         if self._stopper():
+            self._stopLock.acquire()
             self._stop = True
+            self._stopLock.release()
+
+            self._timerLock.acquire()
             for timer in self._timers:
                 timer.cancel()
+            self._timerLock.release()
 
 
 class _Task(object):

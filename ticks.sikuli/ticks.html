@@ -124,10 +124,14 @@ _MARK = <span class="str">u'/tmp/stop'</span>
     <span class="kw">def</span> __init__(self, stopper):
         <span class="cmt"># keep timer objects to cleanup
 </span>        self._timers = []
+        <span class="cmt"># prevent race condition
+</span>        self._timerLock = threading.Lock()
         <span class="cmt"># check if about to close
 </span>        self._stopper = stopper
         <span class="cmt"># true if about to close
 </span>        self._stop = False
+        <span class="cmt"># prevent race condition
+</span>        self._stopLock = threading.Lock()
         <span class="cmt"># the worker that do real jobs
 </span>        <span class="cmt"># it will only run one job at a time
 </span>        self._worker = _Worker(self)
@@ -142,14 +146,21 @@ _MARK = <span class="str">u'/tmp/stop'</span>
         task.start()
 
     <span class="kw">def</span> add(self, timer):
+        self._timerLock.acquire()
         self._timers.append(timer)
+        self._timerLock.release()
 
     <span class="kw">def</span> remove(self, timer):
+        self._timerLock.acquire()
         self._timers.remove(timer)
+        self._timerLock.release()
 
     @property
     <span class="kw">def</span> stop(self):
-        <span class="kw">return</span> self._stop
+        self._stopLock.acquire()
+        tmp = self._stop
+        self._stopLock.release()
+        <span class="kw">return</span> tmp
 
     @property
     <span class="kw">def</span> worker(self):
@@ -157,9 +168,14 @@ _MARK = <span class="str">u'/tmp/stop'</span>
 
     <span class="kw">def</span> _check(self):
         <span class="kw">if</span> self._stopper():
+            self._stopLock.acquire()
             self._stop = True
+            self._stopLock.release()
+
+            self._timerLock.acquire()
             <span class="kw">for</span> timer <span class="kw">in</span> self._timers:
                 timer.cancel()
+            self._timerLock.release()
 
 
 <span class="kw">class</span> _Task(object):
