@@ -109,8 +109,7 @@ class _Task(object):
         except:
             pass
 
-        task = _Task(self._el, self._sec, self._cb)
-        task._timer.start()
+        self._el.post(self._sec, self._cb)
 
 
 class _Worker(threading.Thread):

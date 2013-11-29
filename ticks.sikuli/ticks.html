@@ -181,8 +181,7 @@ _MARK = <span class="str">u'/tmp/stop'</span>
         <span class="kw">except</span>:
             <span class="kw">pass</span>
 
-        task = _Task(self._el, self._sec, self._cb)
-        task._timer.start()
+        self._el.post(self._sec, self._cb)
 
 
 <span class="kw">class</span> _Worker(threading.Thread):
