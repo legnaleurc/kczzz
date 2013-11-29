@@ -141,11 +141,13 @@ _MARK = <span class="str">u'/tmp/stop'</span>
     <span class="kw">def</span> remove(self, timer):
         self._timers.remove(timer)
 
-    <span class="kw">def</span> stopped(self):
+    @property
+    <span class="kw">def</span> stop(self):
         <span class="kw">return</span> self._stop
 
-    <span class="kw">def</span> enqueue(self, action):
-        self._worker.enqueue(action)
+    @property
+    <span class="kw">def</span> worker(self):
+        <span class="kw">return</span> self._worker
 
     <span class="kw">def</span> _check(self):
         <span class="kw">if</span> self._stopper():
@@ -166,10 +168,10 @@ _MARK = <span class="str">u'/tmp/stop'</span>
     <span class="kw">def</span> __call__(self):
         self._el.remove(self._timer)
 
-        <span class="kw">if</span> self._el.stopped():
+        <span class="kw">if</span> self._el.stop:
             <span class="kw">return</span>
 
-        self._el.enqueue(self._action)
+        self._el.worker.enqueue(self._action, id(self._cb))
 
     <span class="kw">def</span> _action(self):
         <span class="kw">try</span>:
@@ -194,7 +196,7 @@ _MARK = <span class="str">u'/tmp/stop'</span>
         self._queueLock = threading.Lock()
 
     <span class="kw">def</span> run(self):
-        <span class="kw">while</span> <span class="kw">not</span> self._el.stopped():
+        <span class="kw">while</span> <span class="kw">not</span> self._el.stop:
             self._condition.acquire()
             self._condition.<span class="skw">wait</span>()
             self._condition.release()
@@ -202,19 +204,20 @@ _MARK = <span class="str">u'/tmp/stop'</span>
             <span class="kw">while</span> True:
                 self._queueLock.acquire()
                 <span class="kw">if</span> len(self._queue) &gt; <span class="dig">0</span>:
-                    action = self._queue[<span class="dig">0</span>]
+                    action, id_ = self._queue[<span class="dig">0</span>]
                     <span class="kw">del</span> self._queue[<span class="dig">0</span>]
                 <span class="kw">else</span>:
-                    action = None
+                    action, id_ = None, None
                 self._queueLock.release()
 
                 <span class="kw">if</span> <span class="kw">not</span> action:
                     <span class="kw">break</span>
                 action()
 
-    <span class="kw">def</span> enqueue(self, action):
+    <span class="kw">def</span> enqueue(self, action, id_):
         self._queueLock.acquire()
-        self._queue.append(action)
+        <span class="kw">if</span> id_ <span class="kw">not</span> <span class="kw">in</span> (x[<span class="dig">1</span>] <span class="kw">for</span> x <span class="kw">in</span> self._queue):
+            self._queue.append((action, id_))
         self._queueLock.release()
 
         self._condition.acquire()
