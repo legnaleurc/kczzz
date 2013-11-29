@@ -1,0 +1,183 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>__main__.sikuli</h2> <a href="__main__.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="str">"""
+Copyright (c) 2013 Wei-Cheng Pan &lt;legnaleurc@gmail.com&gt;
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+"""</span>
+
+
+<span class="kw">import</span> ticks
+<span class="kw">import</span> ui
+
+
+el = ticks.EventLoop()
+imgs = ui.Library()
+
+
+@el.every(<span class="dig">10</span>)
+<span class="kw">def</span> dismissDMMError():
+    <span class="kw">if</span> exists(imgs.browserAlert):
+        <span class="skw">click</span>(imgs.browserAlertButtonCancel)
+
+
+@el.every(<span class="dig">10</span>)
+<span class="kw">def</span> dismissKanColleError():
+    <span class="kw">if</span> exists(imgs.systemScreenError):
+        <span class="skw">type</span>(Key.F5)
+        a = <span class="skw">wait</span>(imgs.systemButtonStart, <span class="dig">30</span>)
+        <span class="skw">click</span>(a)
+        <span class="skw">wait</span>(imgs.mainMenuButtonGo, <span class="dig">30</span>)
+
+
+@el.every(<span class="dig">60</span>)
+<span class="kw">def</span> repair():
+    <span class="skw">click</span>(imgs.mainMenuButtonRepair)
+    <span class="skw">wait</span>(imgs.dockMenuLabel, <span class="dig">20</span>)
+
+    <span class="cmt"># loop every empty slot in the dock
+</span>    <span class="kw">while</span> True:
+        <span class="kw">try</span>:
+            <span class="cmt"># click an empty slot
+</span>            a = <span class="skw">wait</span>(imgs.dockButtonEmptySlot, <span class="dig">20</span>)
+            <span class="skw">click</span>(a)
+
+            <span class="cmt"># locate girl table
+</span>            a = <span class="skw">wait</span>(imgs.dockTableHeader, <span class="dig">20</span>)
+            <span class="cmt"># height / 2 of table header
+</span>            thGap = <span class="dig">10</span>
+            <span class="cmt"># height / 2 of table row
+</span>            trGap = <span class="dig">15</span>
+            <span class="cmt"># move to the first row
+</span>            a = a.getTarget().below(thGap + trGap)
+
+            <span class="cmt"># find the first non-repairing girl by seeking repairing icon
+</span>            <span class="cmt"># creates search area
+</span>            r = Region(a.getX() - <span class="dig">1</span>, a.getY() - trGap - <span class="dig">1</span>, <span class="dig">1</span>, trGap * <span class="dig">2</span> + <span class="dig">2</span>).right()
+            <span class="kw">while</span> True:
+                <span class="cmt"># search repairing icon in this area
+</span>                a = r.exists(imgs.dockTableLabelRepairing)
+                <span class="kw">if</span> a:
+                    <span class="cmt"># move to next row
+</span>                    r = r.offset(Location(<span class="dig">0</span>, trGap * <span class="dig">2</span>))
+                <span class="kw">else</span>:
+                    <span class="kw">break</span>
+            <span class="cmt"># get click location
+</span>            a = r.getTopLeft().below(trGap)
+
+            <span class="cmt"># click target girl
+</span>            <span class="skw">click</span>(a)
+            <span class="cmt"># start repair
+</span>            a = <span class="skw">wait</span>(imgs.dockSubmenuStartRepair, <span class="dig">20</span>)
+            <span class="skw">click</span>(a)
+            <span class="cmt"># confirm
+</span>            a = <span class="skw">wait</span>(imgs.dockScreenConfirmRepairYes, <span class="dig">20</span>)
+            <span class="skw">click</span>(a)
+
+            <span class="cmt"># sometimes empty slot will not update immediately
+</span>            <span class="cmt"># so wait here to avoid clicking an invalid slot
+</span>            <span class="skw">wait</span>(<span class="dig">5</span>)
+        <span class="kw">except</span>:
+            <span class="kw">break</span>
+    <span class="cmt"># go to main menu
+</span>    a = <span class="skw">find</span>(imgs.submenuButtonBack)
+    <span class="skw">click</span>(a)
+    <span class="cmt"># move cursor out to prevent help text popup
+</span>    a = a.getTarget().left(<span class="dig">100</span>)
+    hover(a)
+    <span class="cmt"># ensure it is in main menu, i.e. initial state
+</span>    <span class="skw">wait</span>(imgs.mainMenuButtonGo, <span class="dig">20</span>)
+
+
+dismissDMMError()
+dismissKanColleError()
+repair()
+</pre>
+</body>
+</html>
