@@ -93,6 +93,7 @@ THE SOFTWARE.
 """</span>
 
 
+<span class="kw">import</span> heapq
 <span class="kw">import</span> threading
 
 
@@ -103,17 +104,16 @@ THE SOFTWARE.
             stopper = _stopper
         self._el = _EventLoop(stopper)
 
-    <span class="kw">def</span> every(self, sec, cb=None):
-        <span class="kw">if</span> cb:
-            self._el.post(sec, cb)
-            <span class="kw">return</span>
-
+    <span class="kw">def</span> daemon(self, sec, priority=<span class="dig">0L</span>):
         <span class="kw">def</span> a(cb):
             <span class="kw">def</span> b():
-                self._el.post(sec, cb)
+                self._el.post(sec, cb, priority)
             <span class="kw">return</span> b
 
         <span class="kw">return</span> a
+
+    <span class="kw">def</span> every(self, sec, cb, priority=<span class="dig">0L</span>):
+        self._el.post(sec, cb, priority)
 
 
 _MARK = <span class="str">u'/tmp/stop'</span>
@@ -139,10 +139,10 @@ _MARK = <span class="str">u'/tmp/stop'</span>
         self._worker.start()
 
         <span class="cmt"># check terminate condition every 0.5 sec
-</span>        self.post(<span class="dig">0.5</span>, self._check)
+</span>        self.post(<span class="dig">0.5</span>, self._check, <span class="dig">100L</span>)
 
-    <span class="kw">def</span> post(self, sec, cb):
-        task = _Task(self, sec, cb)
+    <span class="kw">def</span> post(self, sec, cb, priority):
+        task = _Task(self, sec, cb, priority)
         task.start()
 
     <span class="kw">def</span> add(self, timer):
@@ -180,11 +180,23 @@ _MARK = <span class="str">u'/tmp/stop'</span>
 
 <span class="kw">class</span> _Task(object):
 
-    <span class="kw">def</span> __init__(self, el, sec, cb):
+    _counter = <span class="dig">0L</span>
+    _counterLock = threading.Lock()
+
+    @staticmethod
+    <span class="kw">def</span> _getID():
+        _Task._counterLock.acquire()
+        _Task._counter = _Task._counter + <span class="dig">1</span>
+        tmp = _Task._counter
+        _Task._counterLock.release()
+
+    <span class="kw">def</span> __init__(self, el, sec, cb, priority):
         self._el = el
         self._sec = sec
         self._cb = cb
         self._timer = threading.Timer(self._sec, self)
+        self._id = <span class="dig">0L</span>
+        self._priority = priority
 
         self._el.add(self._timer)
 
@@ -195,13 +207,36 @@ _MARK = <span class="str">u'/tmp/stop'</span>
             <span class="kw">return</span>
 
         <span class="cmt"># tell the worker to execute job
-</span>        self._el.worker.enqueue(self)
+</span>        self._id = _Task._getID()
+        self._el.worker.enqueue(self)
+
+    <span class="kw">def</span> __lt__(self, rhs):
+        <span class="kw">if</span> self._priority &gt; rhs._priority:
+            <span class="kw">return</span> True
+        <span class="kw">if</span> self._priority &lt; rhs._priority:
+            <span class="kw">return</span> False
+        <span class="kw">return</span> self._id &lt; rhs._id
+
+    <span class="kw">def</span> __eq__(self, rhs):
+        <span class="kw">return</span> self._priority == rhs._priority <span class="kw">and</span> self._id == rhs._id
+
+    <span class="kw">def</span> __ne__(self, rhs):
+        <span class="kw">return</span> <span class="kw">not</span> self == rhs
+
+    <span class="kw">def</span> __gt__(self, rhs):
+        <span class="kw">return</span> self &gt;= rhs <span class="kw">and</span> self != rhs
+
+    <span class="kw">def</span> __ge__(self, rhs):
+        <span class="kw">return</span> <span class="kw">not</span> self &lt; rhs
+
+    <span class="kw">def</span> __le__(self, rhs):
+        <span class="kw">return</span> <span class="kw">not</span> self &gt; rhs
 
     <span class="kw">def</span> start(self):
         self._timer.start()
 
     @property
-    <span class="kw">def</span> id_(self):
+    <span class="kw">def</span> tag(self):
         <span class="kw">return</span> id(self._cb)
 
     <span class="kw">def</span> action(self):
@@ -212,7 +247,7 @@ _MARK = <span class="str">u'/tmp/stop'</span>
         <span class="kw">except</span>:
             <span class="kw">pass</span>
 
-        self._el.post(self._sec, self._cb)
+        self._el.post(self._sec, self._cb, self._priority)
 
 
 <span class="kw">class</span> _Worker(threading.Thread):
@@ -235,8 +270,7 @@ _MARK = <span class="str">u'/tmp/stop'</span>
             <span class="kw">while</span> True:
                 self._queueLock.acquire()
                 <span class="kw">if</span> len(self._queue) &gt; <span class="dig">0</span>:
-                    task = self._queue[<span class="dig">0</span>]
-                    <span class="kw">del</span> self._queue[<span class="dig">0</span>]
+                    task = heapq.heappop(self._queue)
                 <span class="kw">else</span>:
                     task = None
                 <span class="cmt"># actions may take a long time
@@ -254,8 +288,8 @@ _MARK = <span class="str">u'/tmp/stop'</span>
 
         self._queueLock.acquire()
         <span class="cmt"># must ensure there is no same job in the queue
-</span>        <span class="kw">if</span> task.id_ <span class="kw">not</span> <span class="kw">in</span> (t.id_ <span class="kw">for</span> t <span class="kw">in</span> self._queue):
-            self._queue.append(task)
+</span>        <span class="kw">if</span> task.tag <span class="kw">not</span> <span class="kw">in</span> (t.tag <span class="kw">for</span> t <span class="kw">in</span> self._queue):
+            heapq.heappush(self._queue, task)
         self._queueLock.release()
 
         <span class="cmt"># notify worker to consume

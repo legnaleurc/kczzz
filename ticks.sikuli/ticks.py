@@ -21,6 +21,7 @@ THE SOFTWARE.
 """
 
 
+import heapq
 import threading
 
 
@@ -31,17 +32,16 @@ class EventLoop(object):
             stopper = _stopper
         self._el = _EventLoop(stopper)
 
-    def every(self, sec, cb=None):
-        if cb:
-            self._el.post(sec, cb)
-            return
-
+    def daemon(self, sec, priority=0L):
         def a(cb):
             def b():
-                self._el.post(sec, cb)
+                self._el.post(sec, cb, priority)
             return b
 
         return a
+
+    def every(self, sec, cb, priority=0L):
+        self._el.post(sec, cb, priority)
 
 
 _MARK = u'/tmp/stop'
@@ -67,10 +67,10 @@ class _EventLoop(object):
         self._worker.start()
 
         # check terminate condition every 0.5 sec
-        self.post(0.5, self._check)
+        self.post(0.5, self._check, 100L)
 
-    def post(self, sec, cb):
-        task = _Task(self, sec, cb)
+    def post(self, sec, cb, priority):
+        task = _Task(self, sec, cb, priority)
         task.start()
 
     def add(self, timer):
@@ -108,11 +108,23 @@ class _EventLoop(object):
 
 class _Task(object):
 
-    def __init__(self, el, sec, cb):
+    _counter = 0L
+    _counterLock = threading.Lock()
+
+    @staticmethod
+    def _getID():
+        _Task._counterLock.acquire()
+        _Task._counter = _Task._counter + 1
+        tmp = _Task._counter
+        _Task._counterLock.release()
+
+    def __init__(self, el, sec, cb, priority):
         self._el = el
         self._sec = sec
         self._cb = cb
         self._timer = threading.Timer(self._sec, self)
+        self._id = 0L
+        self._priority = priority
 
         self._el.add(self._timer)
 
@@ -123,13 +135,36 @@ class _Task(object):
             return
 
         # tell the worker to execute job
+        self._id = _Task._getID()
         self._el.worker.enqueue(self)
+
+    def __lt__(self, rhs):
+        if self._priority > rhs._priority:
+            return True
+        if self._priority < rhs._priority:
+            return False
+        return self._id < rhs._id
+
+    def __eq__(self, rhs):
+        return self._priority == rhs._priority and self._id == rhs._id
+
+    def __ne__(self, rhs):
+        return not self == rhs
+
+    def __gt__(self, rhs):
+        return self >= rhs and self != rhs
+
+    def __ge__(self, rhs):
+        return not self < rhs
+
+    def __le__(self, rhs):
+        return not self > rhs
 
     def start(self):
         self._timer.start()
 
     @property
-    def id_(self):
+    def tag(self):
         return id(self._cb)
 
     def action(self):
@@ -140,7 +175,7 @@ class _Task(object):
         except:
             pass
 
-        self._el.post(self._sec, self._cb)
+        self._el.post(self._sec, self._cb, self._priority)
 
 
 class _Worker(threading.Thread):
@@ -163,8 +198,7 @@ class _Worker(threading.Thread):
             while True:
                 self._queueLock.acquire()
                 if len(self._queue) > 0:
-                    task = self._queue[0]
-                    del self._queue[0]
+                    task = heapq.heappop(self._queue)
                 else:
                     task = None
                 # actions may take a long time
@@ -182,8 +216,8 @@ class _Worker(threading.Thread):
 
         self._queueLock.acquire()
         # must ensure there is no same job in the queue
-        if task.id_ not in (t.id_ for t in self._queue):
-            self._queue.append(task)
+        if task.tag not in (t.tag for t in self._queue):
+            heapq.heappush(self._queue, task)
         self._queueLock.release()
 
         # notify worker to consume
