@@ -161,6 +161,9 @@ class _Worker(threading.Thread):
                 task.action()
 
     def enqueue(self, task):
+        if self._el.stop:
+            return
+
         self._queueLock.acquire()
         # must ensure there is no same job in the queue
         if task.id_ not in (t.id_ for t in self._queue):

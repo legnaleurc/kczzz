@@ -233,6 +233,9 @@ _MARK = <span class="str">u'/tmp/stop'</span>
                 task.action()
 
     <span class="kw">def</span> enqueue(self, task):
+        <span class="kw">if</span> self._el.stop:
+            <span class="kw">return</span>
+
         self._queueLock.acquire()
         <span class="cmt"># must ensure there is no same job in the queue
 </span>        <span class="kw">if</span> task.id_ <span class="kw">not</span> <span class="kw">in</span> (t.id_ <span class="kw">for</span> t <span class="kw">in</span> self._queue):
