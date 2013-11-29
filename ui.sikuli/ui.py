@@ -1,0 +1,112 @@
+"""
+Copyright (c) 2013 Wei-Cheng Pan <legnaleurc@gmail.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+"""
+
+
+class Library(object):
+    
+    def __init__(self):
+        self._browser_alert = "browser_alert.png"
+        self._browser_alert_button_cancel = "browser_alert_button_cancel.png"
+        self._system_screen_error = "system_screen_error.png"
+        self._system_button_start = "system_button_start.png"
+        
+        self._main_menu_button_go = "main_menu_button_go.png"
+        self._main_menu_button_repair = "main_menu_button_repair.png"
+        self._main_menu_label_long_trip_done = "main_menu_label_long_trip_done.png"
+        self._submenu_button_back = "submenu_button_back.png"
+        self._long_trip_screen_succeed = "long_trip_screen_succeed.png"
+        self._long_trip_screen_failed = "long_trip_screen_failed.png"
+        self._long_trip_screen_button_next = "long_trip_screen_button_next.png"
+        self._dock_menu_label = "dock_menu_label.png"
+        self._dock_button_empty_slot = "dock_button_empty_slot.png"
+        self._dock_table_header = "dock_table_header.png"
+        self._dock_table_label_repairing = "dock_table_label_repairing.png"
+        self._dock_submenu_start_repair = "dock_submenu_start_repair.png"
+        self._dock_screen_confirm_repair_yes = "dock_screen_confirm_repair_yes.png"
+
+    @property
+    def browserAlert(self):
+        return self._browser_alert
+    
+    @property
+    def browserAlertButtonCancel(self):
+        return self._browser_alert_button_cancel
+
+    @property
+    def systemScreenError(self):
+        return self._system_screen_error
+    
+    @property
+    def systemButtonStart(self):
+        return self._system_button_start
+    
+    @property
+    def mainMenuButtonGo(self):
+        return self._main_menu_button_go
+    
+    @property
+    def mainMenuButtonRepair(self):
+        return self._main_menu_button_repair
+    
+    @property
+    def mainMenuLabelLongTripDone(self):
+        return self._main_menu_label_long_trip_done
+    
+    @property
+    def submenuButtonBack(self):
+        return self._submenu_button_back
+    
+    @property
+    def longTripScreenSucceed(self):
+        return self._long_trip_screen_succeed
+    
+    @property
+    def longTripScreenFailed(self):
+        return self._long_trip_screen_failed
+    
+    @property
+    def longTripScreenButtonNext(self):
+        return self._long_trip_screen_button_next
+    
+    @property
+    def dockMenuLabel(self):
+        return self._dock_menu_label
+    
+    @property
+    def dockButtonEmptySlot(self):
+        return self._dock_button_empty_slot
+    
+    @property
+    def dockTableHeader(self):
+        return self._dock_table_header
+    
+    @property
+    def dockTableLabelRepairing(self):
+        return self._dock_table_label_repairing
+    
+    @property
+    def dockSubmenuStartRepair(self):
+        return self._dock_submenu_start_repair
+    
+    @property
+    def dockScreenConfirmRepairYes(self):
+        return self._dock_screen_confirm_repair_yes

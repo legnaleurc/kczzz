@@ -1,0 +1,187 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>ui.sikuli</h2> <a href="ui.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="str">"""
+Copyright (c) 2013 Wei-Cheng Pan &lt;legnaleurc@gmail.com&gt;
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+"""</span>
+
+
+<span class="kw">class</span> Library(object):
+
+    <span class="kw">def</span> __init__(self):
+        self._browser_alert = <img src="browser_alert.png" />
+        self._browser_alert_button_cancel = <img src="browser_alert_button_cancel.png" />
+        self._system_screen_error = <img src="system_screen_error.png" />
+        self._system_button_start = <img src="system_button_start.png" />
+
+        self._main_menu_button_go = <img src="main_menu_button_go.png" />
+        self._main_menu_button_repair = <img src="main_menu_button_repair.png" />
+        self._main_menu_label_long_trip_done = <img src="main_menu_label_long_trip_done.png" />
+        self._submenu_button_back = <img src="submenu_button_back.png" />
+        self._long_trip_screen_succeed = <img src="long_trip_screen_succeed.png" />
+        self._long_trip_screen_failed = <img src="long_trip_screen_failed.png" />
+        self._long_trip_screen_button_next = <img src="long_trip_screen_button_next.png" />
+        self._dock_menu_label = <img src="dock_menu_label.png" />
+        self._dock_button_empty_slot = <img src="dock_button_empty_slot.png" />
+        self._dock_table_header = <img src="dock_table_header.png" />
+        self._dock_table_label_repairing = <img src="dock_table_label_repairing.png" />
+        self._dock_submenu_start_repair = <img src="dock_submenu_start_repair.png" />
+        self._dock_screen_confirm_repair_yes = <img src="dock_screen_confirm_repair_yes.png" />
+
+    @property
+    <span class="kw">def</span> browserAlert(self):
+        <span class="kw">return</span> self._browser_alert
+
+    @property
+    <span class="kw">def</span> browserAlertButtonCancel(self):
+        <span class="kw">return</span> self._browser_alert_button_cancel
+
+    @property
+    <span class="kw">def</span> systemScreenError(self):
+        <span class="kw">return</span> self._system_screen_error
+
+    @property
+    <span class="kw">def</span> systemButtonStart(self):
+        <span class="kw">return</span> self._system_button_start
+
+    @property
+    <span class="kw">def</span> mainMenuButtonGo(self):
+        <span class="kw">return</span> self._main_menu_button_go
+
+    @property
+    <span class="kw">def</span> mainMenuButtonRepair(self):
+        <span class="kw">return</span> self._main_menu_button_repair
+
+    @property
+    <span class="kw">def</span> mainMenuLabelLongTripDone(self):
+        <span class="kw">return</span> self._main_menu_label_long_trip_done
+
+    @property
+    <span class="kw">def</span> submenuButtonBack(self):
+        <span class="kw">return</span> self._submenu_button_back
+
+    @property
+    <span class="kw">def</span> longTripScreenSucceed(self):
+        <span class="kw">return</span> self._long_trip_screen_succeed
+
+    @property
+    <span class="kw">def</span> longTripScreenFailed(self):
+        <span class="kw">return</span> self._long_trip_screen_failed
+
+    @property
+    <span class="kw">def</span> longTripScreenButtonNext(self):
+        <span class="kw">return</span> self._long_trip_screen_button_next
+
+    @property
+    <span class="kw">def</span> dockMenuLabel(self):
+        <span class="kw">return</span> self._dock_menu_label
+
+    @property
+    <span class="kw">def</span> dockButtonEmptySlot(self):
+        <span class="kw">return</span> self._dock_button_empty_slot
+
+    @property
+    <span class="kw">def</span> dockTableHeader(self):
+        <span class="kw">return</span> self._dock_table_header
+
+    @property
+    <span class="kw">def</span> dockTableLabelRepairing(self):
+        <span class="kw">return</span> self._dock_table_label_repairing
+
+    @property
+    <span class="kw">def</span> dockSubmenuStartRepair(self):
+        <span class="kw">return</span> self._dock_submenu_start_repair
+
+    @property
+    <span class="kw">def</span> dockScreenConfirmRepairYes(self):
+        <span class="kw">return</span> self._dock_screen_confirm_repair_yes
+</pre>
+</body>
+</html>
