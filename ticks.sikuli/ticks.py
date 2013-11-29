@@ -61,7 +61,7 @@ class _EventLoop(object):
 
     def post(self, sec, cb):
         task = _Task(self, sec, cb)
-        task._timer.start()
+        task.start()
 
     def add(self, timer):
         self._timers.append(timer)
@@ -91,6 +91,7 @@ class _Task(object):
         self._sec = sec
         self._cb = cb
         self._timer = threading.Timer(self._sec, self)
+
         self._el.add(self._timer)
 
     def __call__(self):
@@ -99,9 +100,16 @@ class _Task(object):
         if self._el.stop:
             return
 
-        self._el.worker.enqueue(self._action, id(self._cb))
+        self._el.worker.enqueue(self)
 
-    def _action(self):
+    def start(self):
+        self._timer.start()
+
+    @property
+    def id_(self):
+        return id(self._cb)
+
+    def action(self):
         try:
             self._cb()
         except Exception, e:
@@ -131,20 +139,20 @@ class _Worker(threading.Thread):
             while True:
                 self._queueLock.acquire()
                 if len(self._queue) > 0:
-                    action, id_ = self._queue[0]
+                    task = self._queue[0]
                     del self._queue[0]
                 else:
-                    action, id_ = None, None
+                    task = None
                 self._queueLock.release()
 
-                if not action:
+                if not task:
                     break
-                action()
+                task.action()
 
-    def enqueue(self, action, id_):
+    def enqueue(self, task):
         self._queueLock.acquire()
-        if id_ not in (x[1] for x in self._queue):
-            self._queue.append((action, id_))
+        if task.id_ not in (t.id_ for t in self._queue):
+            self._queue.append(task)
         self._queueLock.release()
 
         self._condition.acquire()

@@ -133,7 +133,7 @@ _MARK = <span class="str">u'/tmp/stop'</span>
 
     <span class="kw">def</span> post(self, sec, cb):
         task = _Task(self, sec, cb)
-        task._timer.start()
+        task.start()
 
     <span class="kw">def</span> add(self, timer):
         self._timers.append(timer)
@@ -163,6 +163,7 @@ _MARK = <span class="str">u'/tmp/stop'</span>
         self._sec = sec
         self._cb = cb
         self._timer = threading.Timer(self._sec, self)
+
         self._el.add(self._timer)
 
     <span class="kw">def</span> __call__(self):
@@ -171,9 +172,16 @@ _MARK = <span class="str">u'/tmp/stop'</span>
         <span class="kw">if</span> self._el.stop:
             <span class="kw">return</span>
 
-        self._el.worker.enqueue(self._action, id(self._cb))
+        self._el.worker.enqueue(self)
 
-    <span class="kw">def</span> _action(self):
+    <span class="kw">def</span> start(self):
+        self._timer.start()
+
+    @property
+    <span class="kw">def</span> id_(self):
+        <span class="kw">return</span> id(self._cb)
+
+    <span class="kw">def</span> action(self):
         <span class="kw">try</span>:
             self._cb()
         <span class="kw">except</span> Exception, e:
@@ -203,20 +211,20 @@ _MARK = <span class="str">u'/tmp/stop'</span>
             <span class="kw">while</span> True:
                 self._queueLock.acquire()
                 <span class="kw">if</span> len(self._queue) &gt; <span class="dig">0</span>:
-                    action, id_ = self._queue[<span class="dig">0</span>]
+                    task = self._queue[<span class="dig">0</span>]
                     <span class="kw">del</span> self._queue[<span class="dig">0</span>]
                 <span class="kw">else</span>:
-                    action, id_ = None, None
+                    task = None
                 self._queueLock.release()
 
-                <span class="kw">if</span> <span class="kw">not</span> action:
+                <span class="kw">if</span> <span class="kw">not</span> task:
                     <span class="kw">break</span>
-                action()
+                task.action()
 
-    <span class="kw">def</span> enqueue(self, action, id_):
+    <span class="kw">def</span> enqueue(self, task):
         self._queueLock.acquire()
-        <span class="kw">if</span> id_ <span class="kw">not</span> <span class="kw">in</span> (x[<span class="dig">1</span>] <span class="kw">for</span> x <span class="kw">in</span> self._queue):
-            self._queue.append((action, id_))
+        <span class="kw">if</span> task.id_ <span class="kw">not</span> <span class="kw">in</span> (t.id_ <span class="kw">for</span> t <span class="kw">in</span> self._queue):
+            self._queue.append(task)
         self._queueLock.release()
 
         self._condition.acquire()
