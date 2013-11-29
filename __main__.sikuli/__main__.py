@@ -44,6 +44,18 @@ def dismissKanColleError():
         wait(imgs.mainMenuButtonGo, 30)
 
 
+@el.daemon(60, 97L)
+def checkLongTrip():
+    a = exists(imgs.mainMenuLabelLongTripDone)
+    if a:
+        click(a)
+        a = wait(imgs.longTripScreenSucceed, 20)
+        click(a)
+        wait(3)
+        click(a)
+        wait(imgs.mainMenuButtonGo)
+
+
 @el.daemon(60)
 def repair():
     click(imgs.mainMenuButtonRepair)

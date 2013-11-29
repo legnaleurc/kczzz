@@ -116,6 +116,18 @@ imgs = ui.Library()
         <span class="skw">wait</span>(imgs.mainMenuButtonGo, <span class="dig">30</span>)
 
 
+@el.daemon(<span class="dig">60</span>, <span class="dig">97L</span>)
+<span class="kw">def</span> checkLongTrip():
+    a = exists(imgs.mainMenuLabelLongTripDone)
+    <span class="kw">if</span> a:
+        <span class="skw">click</span>(a)
+        a = <span class="skw">wait</span>(imgs.longTripScreenSucceed, <span class="dig">20</span>)
+        <span class="skw">click</span>(a)
+        <span class="skw">wait</span>(<span class="dig">3</span>)
+        <span class="skw">click</span>(a)
+        <span class="skw">wait</span>(imgs.mainMenuButtonGo)
+
+
 @el.daemon(<span class="dig">60</span>)
 <span class="kw">def</span> repair():
     <span class="skw">click</span>(imgs.mainMenuButtonRepair)
