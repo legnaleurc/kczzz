@@ -50,13 +50,19 @@ _MARK = u'/tmp/stop'
 class _EventLoop(object):
 
     def __init__(self, stopper):
+        # keep timer objects to cleanup
         self._timers = []
-        self._stop = False
-        self._worker = _Worker(self)
+        # check if about to close
         self._stopper = stopper
+        # true if about to close
+        self._stop = False
+        # the worker that do real jobs
+        # it will only run one job at a time
+        self._worker = _Worker(self)
 
         self._worker.start()
 
+        # check terminate condition every 0.5 sec
         self.post(0.5, self._check)
 
     def post(self, sec, cb):
@@ -100,6 +106,7 @@ class _Task(object):
         if self._el.stop:
             return
 
+        # tell the worker to execute job
         self._el.worker.enqueue(self)
 
     def start(self):
@@ -132,6 +139,7 @@ class _Worker(threading.Thread):
 
     def run(self):
         while not self._el.stop:
+            # sleep until task arrive
             self._condition.acquire()
             self._condition.wait()
             self._condition.release()
@@ -143,6 +151,9 @@ class _Worker(threading.Thread):
                     del self._queue[0]
                 else:
                     task = None
+                # actions may take a long time
+                # release the lock here to avoid
+                # queue blocking
                 self._queueLock.release()
 
                 if not task:
@@ -151,10 +162,12 @@ class _Worker(threading.Thread):
 
     def enqueue(self, task):
         self._queueLock.acquire()
+        # must ensure there is no same job in the queue
         if task.id_ not in (t.id_ for t in self._queue):
             self._queue.append(task)
         self._queueLock.release()
 
+        # notify worker to consume
         self._condition.acquire()
         self._condition.notifyAll()
         self._condition.release()

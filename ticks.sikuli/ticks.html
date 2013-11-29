@@ -122,14 +122,20 @@ _MARK = <span class="str">u'/tmp/stop'</span>
 <span class="kw">class</span> _EventLoop(object):
 
     <span class="kw">def</span> __init__(self, stopper):
-        self._timers = []
-        self._stop = False
-        self._worker = _Worker(self)
-        self._stopper = stopper
+        <span class="cmt"># keep timer objects to cleanup
+</span>        self._timers = []
+        <span class="cmt"># check if about to close
+</span>        self._stopper = stopper
+        <span class="cmt"># true if about to close
+</span>        self._stop = False
+        <span class="cmt"># the worker that do real jobs
+</span>        <span class="cmt"># it will only run one job at a time
+</span>        self._worker = _Worker(self)
 
         self._worker.start()
 
-        self.post(<span class="dig">0.5</span>, self._check)
+        <span class="cmt"># check terminate condition every 0.5 sec
+</span>        self.post(<span class="dig">0.5</span>, self._check)
 
     <span class="kw">def</span> post(self, sec, cb):
         task = _Task(self, sec, cb)
@@ -172,7 +178,8 @@ _MARK = <span class="str">u'/tmp/stop'</span>
         <span class="kw">if</span> self._el.stop:
             <span class="kw">return</span>
 
-        self._el.worker.enqueue(self)
+        <span class="cmt"># tell the worker to execute job
+</span>        self._el.worker.enqueue(self)
 
     <span class="kw">def</span> start(self):
         self._timer.start()
@@ -204,7 +211,8 @@ _MARK = <span class="str">u'/tmp/stop'</span>
 
     <span class="kw">def</span> run(self):
         <span class="kw">while</span> <span class="kw">not</span> self._el.stop:
-            self._condition.acquire()
+            <span class="cmt"># sleep until task arrive
+</span>            self._condition.acquire()
             self._condition.<span class="skw">wait</span>()
             self._condition.release()
 
@@ -215,7 +223,10 @@ _MARK = <span class="str">u'/tmp/stop'</span>
                     <span class="kw">del</span> self._queue[<span class="dig">0</span>]
                 <span class="kw">else</span>:
                     task = None
-                self._queueLock.release()
+                <span class="cmt"># actions may take a long time
+</span>                <span class="cmt"># release the lock here to avoid
+</span>                <span class="cmt"># queue blocking
+</span>                self._queueLock.release()
 
                 <span class="kw">if</span> <span class="kw">not</span> task:
                     <span class="kw">break</span>
@@ -223,11 +234,13 @@ _MARK = <span class="str">u'/tmp/stop'</span>
 
     <span class="kw">def</span> enqueue(self, task):
         self._queueLock.acquire()
-        <span class="kw">if</span> task.id_ <span class="kw">not</span> <span class="kw">in</span> (t.id_ <span class="kw">for</span> t <span class="kw">in</span> self._queue):
+        <span class="cmt"># must ensure there is no same job in the queue
+</span>        <span class="kw">if</span> task.id_ <span class="kw">not</span> <span class="kw">in</span> (t.id_ <span class="kw">for</span> t <span class="kw">in</span> self._queue):
             self._queue.append(task)
         self._queueLock.release()
 
-        self._condition.acquire()
+        <span class="cmt"># notify worker to consume
+</span>        self._condition.acquire()
         self._condition.notifyAll()
         self._condition.release()
 
