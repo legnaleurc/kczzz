@@ -47,6 +47,9 @@ def dismissKanColleError():
 @el.daemon(60, 97L)
 def checkLongTrip():
     a = exists(imgs.mainMenuLabelLongTripDone)
+    b = exists(imgs.longTripScreenSucceed)
+    c = exists(imgs.longTripScreenFailed)
+    a = a or b or c
     if a:
         click(a)
         a = wait(imgs.longTripScreenSucceed, 20)

@@ -119,6 +119,9 @@ imgs = ui.Library()
 @el.daemon(<span class="dig">60</span>, <span class="dig">97L</span>)
 <span class="kw">def</span> checkLongTrip():
     a = exists(imgs.mainMenuLabelLongTripDone)
+    b = exists(imgs.longTripScreenSucceed)
+    c = exists(imgs.longTripScreenFailed)
+    a = a <span class="kw">or</span> b <span class="kw">or</span> c
     <span class="kw">if</span> a:
         <span class="skw">click</span>(a)
         a = <span class="skw">wait</span>(imgs.longTripScreenSucceed, <span class="dig">20</span>)
