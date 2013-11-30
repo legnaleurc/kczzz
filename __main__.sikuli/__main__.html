@@ -154,7 +154,7 @@ imgs = ui.Library()
 
             <span class="cmt"># find the first non-repairing girl by seeking repairing icon
 </span>            <span class="cmt"># creates search area
-</span>            r = Region(a.getX() - <span class="dig">1</span>, a.getY() - trGap - <span class="dig">1</span>, <span class="dig">1</span>, trGap * <span class="dig">2</span> + <span class="dig">2</span>).right()
+</span>            r = Region(a.getX() - <span class="dig">1</span>, a.getY() - trGap + <span class="dig">1</span>, <span class="dig">1</span>, trGap * <span class="dig">2</span> + <span class="dig">2</span>).right()
             <span class="kw">while</span> True:
                 <span class="cmt"># search repairing icon in this area
 </span>                a = r.exists(imgs.dockTableLabelRepairing)

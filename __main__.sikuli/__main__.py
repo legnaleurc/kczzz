@@ -82,7 +82,7 @@ def repair():
 
             # find the first non-repairing girl by seeking repairing icon
             # creates search area
-            r = Region(a.getX() - 1, a.getY() - trGap - 1, 1, trGap * 2 + 2).right()
+            r = Region(a.getX() - 1, a.getY() - trGap + 1, 1, trGap * 2 + 2).right()
             while True:
                 # search repairing icon in this area
                 a = r.exists(imgs.dockTableLabelRepairing)
