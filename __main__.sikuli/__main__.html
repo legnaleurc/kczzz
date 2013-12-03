@@ -183,7 +183,9 @@ imgs = ui.Library()
     a = exists(imgs.mainMenuLabelLongTripDone)
     b = exists(imgs.longTripScreenSucceed)
     c = exists(imgs.longTripScreenFailed)
-    a = a <span class="kw">or</span> b <span class="kw">or</span> c
+    d = exists(imgs.longTripScreenButtonNext)
+    a = a <span class="kw">or</span> b <span class="kw">or</span> c <span class="kw">or</span> d
+
     <span class="kw">if</span> a:
         logger.info(<span class="str">u'a long trip has been done'</span>)
 

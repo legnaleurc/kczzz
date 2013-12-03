@@ -111,7 +111,9 @@ def checkLongTrip():
     a = exists(imgs.mainMenuLabelLongTripDone)
     b = exists(imgs.longTripScreenSucceed)
     c = exists(imgs.longTripScreenFailed)
-    a = a or b or c
+    d = exists(imgs.longTripScreenButtonNext)
+    a = a or b or c or d
+
     if a:
         logger.info(u'a long trip has been done')
 
