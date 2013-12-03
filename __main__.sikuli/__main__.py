@@ -75,13 +75,33 @@ def dismissDMMError():
     logger.info(u'done DMM error checking')
 
 
+def refresh():
+    type(Key.F5)
+    a = wait(imgs.systemButtonStart, 30)
+    click(a)
+    wait(imgs.mainMenuButtonGo, 30)
+
+
 @el.daemon(10, 98L)
 def dismissKanColleError():
-    if exists(imgs.systemScreenError):
-        type(Key.F5)
-        a = wait(imgs.systemButtonStart, 30)
-        click(a)
-        wait(imgs.mainMenuButtonGo, 30)
+    logger.info(u'checking KanColle error')
+
+    a = exists(imgs.systemScreenError)
+    if a:
+        a = False
+    else:
+        try:
+            a = wait(imgs.mainMenuButtonGo, 30)
+            a = True
+        except:
+            a = False
+
+    if not a:
+        logger.info(u'found KanColle error')
+
+        refresh()
+
+    logger.info(u'done KanColle error checking')
 
 
 @el.daemon(10, 97L)

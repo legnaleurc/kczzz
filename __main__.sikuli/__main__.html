@@ -147,13 +147,33 @@ imgs = ui.Library()
     logger.info(<span class="str">u'done DMM error checking'</span>)
 
 
+<span class="kw">def</span> refresh():
+    <span class="skw">type</span>(Key.F5)
+    a = <span class="skw">wait</span>(imgs.systemButtonStart, <span class="dig">30</span>)
+    <span class="skw">click</span>(a)
+    <span class="skw">wait</span>(imgs.mainMenuButtonGo, <span class="dig">30</span>)
+
+
 @el.daemon(<span class="dig">10</span>, <span class="dig">98L</span>)
 <span class="kw">def</span> dismissKanColleError():
-    <span class="kw">if</span> exists(imgs.systemScreenError):
-        <span class="skw">type</span>(Key.F5)
-        a = <span class="skw">wait</span>(imgs.systemButtonStart, <span class="dig">30</span>)
-        <span class="skw">click</span>(a)
-        <span class="skw">wait</span>(imgs.mainMenuButtonGo, <span class="dig">30</span>)
+    logger.info(<span class="str">u'checking KanColle error'</span>)
+
+    a = exists(imgs.systemScreenError)
+    <span class="kw">if</span> a:
+        a = False
+    <span class="kw">else</span>:
+        <span class="kw">try</span>:
+            a = <span class="skw">wait</span>(imgs.mainMenuButtonGo, <span class="dig">30</span>)
+            a = True
+        <span class="kw">except</span>:
+            a = False
+
+    <span class="kw">if</span> <span class="kw">not</span> a:
+        logger.info(<span class="str">u'found KanColle error'</span>)
+
+        refresh()
+
+    logger.info(<span class="str">u'done KanColle error checking'</span>)
 
 
 @el.daemon(<span class="dig">10</span>, <span class="dig">97L</span>)
