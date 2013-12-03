@@ -210,6 +210,22 @@ imgs = ui.Library()
     logger.info(<span class="str">u'prevent sleep done'</span>)
 
 
+@el.daemon(<span class="dig">10</span>)
+<span class="kw">def</span> failMonitor():
+    logger.info(<span class="str">u'start fail monitor'</span>)
+
+    <span class="cmt"># go to main menu
+</span>    a = <span class="skw">find</span>(imgs.submenuButtonBack)
+    <span class="skw">click</span>(a)
+    <span class="cmt"># move cursor out to prevent help text popup
+</span>    a = a.getTarget().left(<span class="dig">100</span>)
+    hover(a)
+    <span class="cmt"># ensure it is in main menu, i.e. initial state
+</span>    <span class="skw">wait</span>(imgs.mainMenuButtonGo, <span class="dig">20</span>)
+
+    logger.info(<span class="str">u'fail monitor done'</span>)
+
+
 @el.daemon(<span class="dig">60</span>)
 <span class="kw">def</span> repair():
     <span class="skw">click</span>(imgs.mainMenuButtonRepair)
@@ -272,6 +288,7 @@ imgs = ui.Library()
 dismissDMMError()
 dismissKanColleError()
 checkLongTrip()
+failMonitor()
 preventSleep()
 repair()
 </pre>

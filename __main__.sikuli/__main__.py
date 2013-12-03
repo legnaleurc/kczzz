@@ -138,6 +138,22 @@ def preventSleep():
     logger.info(u'prevent sleep done')
 
 
+@el.daemon(10)
+def failMonitor():
+    logger.info(u'start fail monitor')
+
+    # go to main menu
+    a = find(imgs.submenuButtonBack)
+    click(a)
+    # move cursor out to prevent help text popup
+    a = a.getTarget().left(100)
+    hover(a)
+    # ensure it is in main menu, i.e. initial state
+    wait(imgs.mainMenuButtonGo, 20)
+
+    logger.info(u'fail monitor done')
+
+
 @el.daemon(60)
 def repair():
     click(imgs.mainMenuButtonRepair)
@@ -200,5 +216,6 @@ def repair():
 dismissDMMError()
 dismissKanColleError()
 checkLongTrip()
+failMonitor()
 preventSleep()
 repair()
