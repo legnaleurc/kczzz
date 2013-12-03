@@ -65,8 +65,14 @@ imgs = ui.Library()
 
 @el.daemon(10, 99L)
 def dismissDMMError():
+    logger.info(u'checking DMM error')
+
     if exists(imgs.browserAlert):
+        logger.info(u'found DMM error')
+
         click(imgs.browserAlertButtonCancel)
+
+    logger.info(u'done DMM error checking')
 
 
 @el.daemon(10, 98L)
@@ -80,17 +86,23 @@ def dismissKanColleError():
 
 @el.daemon(10, 97L)
 def checkLongTrip():
+    logger.info(u'checking long trip')
+
     a = exists(imgs.mainMenuLabelLongTripDone)
     b = exists(imgs.longTripScreenSucceed)
     c = exists(imgs.longTripScreenFailed)
     a = a or b or c
     if a:
+        logger.info(u'a long trip has been done')
+
         click(a)
         a = wait(imgs.longTripScreenSucceed, 20)
         click(a)
         wait(3)
         click(a)
         wait(imgs.mainMenuButtonGo, 30)
+
+    logger.info(u'done long trip checking')
 
 
 @el.daemon(60)

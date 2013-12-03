@@ -137,8 +137,14 @@ imgs = ui.Library()
 
 @el.daemon(<span class="dig">10</span>, <span class="dig">99L</span>)
 <span class="kw">def</span> dismissDMMError():
+    logger.info(<span class="str">u'checking DMM error'</span>)
+
     <span class="kw">if</span> exists(imgs.browserAlert):
+        logger.info(<span class="str">u'found DMM error'</span>)
+
         <span class="skw">click</span>(imgs.browserAlertButtonCancel)
+
+    logger.info(<span class="str">u'done DMM error checking'</span>)
 
 
 @el.daemon(<span class="dig">10</span>, <span class="dig">98L</span>)
@@ -152,17 +158,23 @@ imgs = ui.Library()
 
 @el.daemon(<span class="dig">10</span>, <span class="dig">97L</span>)
 <span class="kw">def</span> checkLongTrip():
+    logger.info(<span class="str">u'checking long trip'</span>)
+
     a = exists(imgs.mainMenuLabelLongTripDone)
     b = exists(imgs.longTripScreenSucceed)
     c = exists(imgs.longTripScreenFailed)
     a = a <span class="kw">or</span> b <span class="kw">or</span> c
     <span class="kw">if</span> a:
+        logger.info(<span class="str">u'a long trip has been done'</span>)
+
         <span class="skw">click</span>(a)
         a = <span class="skw">wait</span>(imgs.longTripScreenSucceed, <span class="dig">20</span>)
         <span class="skw">click</span>(a)
         <span class="skw">wait</span>(<span class="dig">3</span>)
         <span class="skw">click</span>(a)
         <span class="skw">wait</span>(imgs.mainMenuButtonGo, <span class="dig">30</span>)
+
+    logger.info(<span class="str">u'done long trip checking'</span>)
 
 
 @el.daemon(<span class="dig">60</span>)
