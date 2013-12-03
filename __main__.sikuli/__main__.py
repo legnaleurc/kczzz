@@ -127,6 +127,17 @@ def checkLongTrip():
     logger.info(u'done long trip checking')
 
 
+@el.daemon(10)
+def preventSleep():
+    logger.info(u'start prevent sleep')
+
+    a = Env.getMouseLocation()
+    hover(a.above(100))
+    hover(a)
+
+    logger.info(u'prevent sleep done')
+
+
 @el.daemon(60)
 def repair():
     click(imgs.mainMenuButtonRepair)
@@ -189,4 +200,5 @@ def repair():
 dismissDMMError()
 dismissKanColleError()
 checkLongTrip()
+preventSleep()
 repair()

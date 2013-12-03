@@ -199,6 +199,17 @@ imgs = ui.Library()
     logger.info(<span class="str">u'done long trip checking'</span>)
 
 
+@el.daemon(<span class="dig">10</span>)
+<span class="kw">def</span> preventSleep():
+    logger.info(<span class="str">u'start prevent sleep'</span>)
+
+    a = Env.getMouseLocation()
+    hover(a.above(<span class="dig">100</span>))
+    hover(a)
+
+    logger.info(<span class="str">u'prevent sleep done'</span>)
+
+
 @el.daemon(<span class="dig">60</span>)
 <span class="kw">def</span> repair():
     <span class="skw">click</span>(imgs.mainMenuButtonRepair)
@@ -261,6 +272,7 @@ imgs = ui.Library()
 dismissDMMError()
 dismissKanColleError()
 checkLongTrip()
+preventSleep()
 repair()
 </pre>
 </body>
