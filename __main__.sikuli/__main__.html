@@ -228,7 +228,13 @@ imgs = ui.Library()
 
 @el.daemon(<span class="dig">60</span>)
 <span class="kw">def</span> repair():
-    <span class="skw">click</span>(imgs.mainMenuButtonRepair)
+    logger.info(<span class="str">u'start repair checking'</span>)
+
+    a = exists(imgs.mainMenuButtonRepair)
+    <span class="kw">if</span> <span class="kw">not</span> a:
+        logger.info(<span class="str">u'done repair checking'</span>)
+        <span class="kw">return</span>
+    <span class="skw">click</span>(a)
     <span class="skw">wait</span>(imgs.dockMenuLabel, <span class="dig">20</span>)
 
     <span class="cmt"># loop every empty slot in the dock
@@ -274,6 +280,7 @@ imgs = ui.Library()
 </span>            <span class="cmt"># so wait here to avoid clicking an invalid slot
 </span>            <span class="skw">wait</span>(<span class="dig">5</span>)
         <span class="kw">except</span>:
+            logger.warn(<span class="str">u'an error occured, stop searching'</span>)
             <span class="kw">break</span>
     <span class="cmt"># go to main menu
 </span>    a = <span class="skw">find</span>(imgs.submenuButtonBack)
@@ -283,6 +290,8 @@ imgs = ui.Library()
     hover(a)
     <span class="cmt"># ensure it is in main menu, i.e. initial state
 </span>    <span class="skw">wait</span>(imgs.mainMenuButtonGo, <span class="dig">20</span>)
+
+    logger.info(<span class="str">u'done repair checking'</span>)
 
 
 dismissDMMError()

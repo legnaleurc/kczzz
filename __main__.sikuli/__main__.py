@@ -156,7 +156,13 @@ def failMonitor():
 
 @el.daemon(60)
 def repair():
-    click(imgs.mainMenuButtonRepair)
+    logger.info(u'start repair checking')
+
+    a = exists(imgs.mainMenuButtonRepair)
+    if not a:
+        logger.info(u'done repair checking')
+        return
+    click(a)
     wait(imgs.dockMenuLabel, 20)
 
     # loop every empty slot in the dock
@@ -202,6 +208,7 @@ def repair():
             # so wait here to avoid clicking an invalid slot
             wait(5)
         except:
+            logger.warn(u'an error occured, stop searching')
             break
     # go to main menu
     a = find(imgs.submenuButtonBack)
@@ -211,6 +218,8 @@ def repair():
     hover(a)
     # ensure it is in main menu, i.e. initial state
     wait(imgs.mainMenuButtonGo, 20)
+
+    logger.info(u'done repair checking')
 
 
 dismissDMMError()
