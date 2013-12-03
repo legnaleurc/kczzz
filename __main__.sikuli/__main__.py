@@ -21,9 +21,43 @@ THE SOFTWARE.
 """
 
 
+import logging
+
 import ticks
 import ui
 
+
+class Logger(object):
+
+    def __init__(self):
+        self._logger = logging.getLogger(__name__)
+        self._fh = logging.FileHandler(u'/tmp/kczzz.log')
+        fmt = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+        self._fh.setFormatter(fmt)
+        self._logger.setLevel(logging.DEBUG)
+        self._logger.addHandler(self._fh)
+
+    def debug(self, msg):
+        self._logger.debug(msg)
+        self._flush()
+
+    def info(self, msg):
+        self._logger.info(msg)
+        self._flush()
+
+    def warn(self, msg):
+        self._logger.warn(msg)
+        self._flush()
+
+    def error(self, msg):
+        self._logger.error(msg)
+        self._flush()
+
+    def _flush(self):
+        self._fh.flush()
+
+
+logger = Logger()
 
 el = ticks.EventLoop()
 imgs = ui.Library()

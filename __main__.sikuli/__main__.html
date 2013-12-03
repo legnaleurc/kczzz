@@ -93,9 +93,43 @@ THE SOFTWARE.
 """</span>
 
 
+<span class="kw">import</span> logging
+
 <span class="kw">import</span> ticks
 <span class="kw">import</span> ui
 
+
+<span class="kw">class</span> Logger(object):
+
+    <span class="kw">def</span> __init__(self):
+        self._logger = logging.getLogger(__name__)
+        self._fh = logging.FileHandler(<span class="str">u'/tmp/kczzz.log'</span>)
+        fmt = logging.Formatter(<span class="str">"%(asctime)s - %(name)s - %(levelname)s - %(message)s"</span>)
+        self._fh.setFormatter(fmt)
+        self._logger.setLevel(logging.DEBUG)
+        self._logger.addHandler(self._fh)
+
+    <span class="kw">def</span> debug(self, msg):
+        self._logger.debug(msg)
+        self._flush()
+
+    <span class="kw">def</span> info(self, msg):
+        self._logger.info(msg)
+        self._flush()
+
+    <span class="kw">def</span> warn(self, msg):
+        self._logger.warn(msg)
+        self._flush()
+
+    <span class="kw">def</span> error(self, msg):
+        self._logger.error(msg)
+        self._flush()
+
+    <span class="kw">def</span> _flush(self):
+        self._fh.flush()
+
+
+logger = Logger()
 
 el = ticks.EventLoop()
 imgs = ui.Library()
