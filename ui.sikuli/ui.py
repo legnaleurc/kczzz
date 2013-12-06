@@ -31,11 +31,19 @@ class Library(object):
         
         self._main_menu_button_go = "main_menu_button_go.png"
         self._main_menu_button_repair = "main_menu_button_repair.png"
+        self._main_menu_button_reload = "main_menu_button_reload.png"
         self._main_menu_label_long_trip_done = "main_menu_label_long_trip_done.png"
         self._submenu_button_back = "submenu_button_back.png"
         self._long_trip_screen_succeed = "long_trip_screen_succeed.png"
         self._long_trip_screen_failed = "long_trip_screen_failed.png"
         self._long_trip_screen_button_next = "long_trip_screen_button_next.png"
+        self._go_menu_button_long_trip = "go_menu_button_long_trip.png"
+        self._long_trip_menu_button_ok = "long_trip_menu_button_ok.png"
+        self._long_trip_menu_button_confirm = "long_trip_menu_button_confirm.png"
+        self._long_trip_menu_mission_3 = "long_trip_menu_mission_3.png"
+        self._select_menu_label = "select_menu_label.png"
+        self._select_menu_second_team = "select_menu_second_team.png"
+        self._select_menu_button_reload = "select_menu_button_reload.png"
         self._dock_menu_label = "dock_menu_label.png"
         self._dock_button_empty_slot = "dock_button_empty_slot.png"
         self._dock_table_header = "dock_table_header.png"
@@ -66,6 +74,10 @@ class Library(object):
     @property
     def mainMenuButtonRepair(self):
         return self._main_menu_button_repair
+
+    @property
+    def mainMenuButtonReload(self):
+        return self._main_menu_button_reload
     
     @property
     def mainMenuLabelLongTripDone(self):
@@ -86,6 +98,34 @@ class Library(object):
     @property
     def longTripScreenButtonNext(self):
         return self._long_trip_screen_button_next
+
+    @property
+    def goMenuButtonLongTrip(self):
+        return self._go_menu_button_long_trip
+
+    @property
+    def longTripMenuButtonOk(self):
+        return self._long_trip_menu_button_ok
+
+    @property
+    def longTripMenuButtonConfirm(self):
+        return self._long_trip_menu_button_confirm
+
+    @property
+    def longTripMenuMission3(self):
+        return self._long_trip_menu_mission_3
+
+    @property
+    def selectMenuLabel(self):
+        return self._select_menu_label
+
+    @property
+    def selectMenuSecondTeam(self):
+        return self._select_menu_second_team
+
+    @property
+    def selectMenuButtonReload(self):
+        return self._select_menu_button_reload
     
     @property
     def dockMenuLabel(self):

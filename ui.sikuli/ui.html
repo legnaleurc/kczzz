@@ -103,11 +103,19 @@ THE SOFTWARE.
 
         self._main_menu_button_go = <img src="main_menu_button_go.png" />
         self._main_menu_button_repair = <img src="main_menu_button_repair.png" />
+        self._main_menu_button_reload = <img src="main_menu_button_reload.png" />
         self._main_menu_label_long_trip_done = <img src="main_menu_label_long_trip_done.png" />
         self._submenu_button_back = <img src="submenu_button_back.png" />
         self._long_trip_screen_succeed = <img src="long_trip_screen_succeed.png" />
         self._long_trip_screen_failed = <img src="long_trip_screen_failed.png" />
         self._long_trip_screen_button_next = <img src="long_trip_screen_button_next.png" />
+        self._go_menu_button_long_trip = <img src="go_menu_button_long_trip.png" />
+        self._long_trip_menu_button_ok = <img src="long_trip_menu_button_ok.png" />
+        self._long_trip_menu_button_confirm = <img src="long_trip_menu_button_confirm.png" />
+        self._long_trip_menu_mission_3 = <img src="long_trip_menu_mission_3.png" />
+        self._select_menu_label = <img src="select_menu_label.png" />
+        self._select_menu_second_team = <img src="select_menu_second_team.png" />
+        self._select_menu_button_reload = <img src="select_menu_button_reload.png" />
         self._dock_menu_label = <img src="dock_menu_label.png" />
         self._dock_button_empty_slot = <img src="dock_button_empty_slot.png" />
         self._dock_table_header = <img src="dock_table_header.png" />
@@ -140,6 +148,10 @@ THE SOFTWARE.
         <span class="kw">return</span> self._main_menu_button_repair
 
     @property
+    <span class="kw">def</span> mainMenuButtonReload(self):
+        <span class="kw">return</span> self._main_menu_button_reload
+
+    @property
     <span class="kw">def</span> mainMenuLabelLongTripDone(self):
         <span class="kw">return</span> self._main_menu_label_long_trip_done
 
@@ -158,6 +170,34 @@ THE SOFTWARE.
     @property
     <span class="kw">def</span> longTripScreenButtonNext(self):
         <span class="kw">return</span> self._long_trip_screen_button_next
+
+    @property
+    <span class="kw">def</span> goMenuButtonLongTrip(self):
+        <span class="kw">return</span> self._go_menu_button_long_trip
+
+    @property
+    <span class="kw">def</span> longTripMenuButtonOk(self):
+        <span class="kw">return</span> self._long_trip_menu_button_ok
+
+    @property
+    <span class="kw">def</span> longTripMenuButtonConfirm(self):
+        <span class="kw">return</span> self._long_trip_menu_button_confirm
+
+    @property
+    <span class="kw">def</span> longTripMenuMission3(self):
+        <span class="kw">return</span> self._long_trip_menu_mission_3
+
+    @property
+    <span class="kw">def</span> selectMenuLabel(self):
+        <span class="kw">return</span> self._select_menu_label
+
+    @property
+    <span class="kw">def</span> selectMenuSecondTeam(self):
+        <span class="kw">return</span> self._select_menu_second_team
+
+    @property
+    <span class="kw">def</span> selectMenuButtonReload(self):
+        <span class="kw">return</span> self._select_menu_button_reload
 
     @property
     <span class="kw">def</span> dockMenuLabel(self):
