@@ -227,9 +227,42 @@ def repair():
     logger.info(u'done repair checking')
 
 
+@el.daemon(21 * 60)
+def farmSteel():
+    m = exists(imgs.mainMenuButtonReload)
+    if not m:
+        return
+    click(m)
+    wait(imgs.selectMenuLabel)
+    m = find(imgs.selectMenuSecondTeam)
+    click(m)
+    click(m.getTarget().left(55))
+    m = exists(imgs.selectMenuButtonReload)
+    if m:
+        # this team has not been reloaded
+        click(m)
+        wait(3)
+    m = find(imgs.submenuButtonBack)
+    click(m)
+    hover(m.getTarget().left(100))
+
+    m = wait(imgs.mainMenuButtonGo, 20)
+    click(m)
+    m = wait(imgs.goMenuButtonLongTrip, 20)
+    click(m)
+    click(imgs.longTripMenuMission3)
+    click(imgs.longTripMenuButtonOk)
+    click(imgs.selectMenuSecondTeam)
+    click(imgs.longTripMenuButtonConfirm)
+    m = find(imgs.submenuButtonBack)
+    click(m)
+    hover(m.getTarget().left(100))
+
+
 dismissDMMError()
 dismissKanColleError()
 checkLongTrip()
 failMonitor()
 preventSleep()
 repair()
+farmSteel()

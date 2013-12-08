@@ -299,12 +299,45 @@ imgs = ui.Library()
     logger.info(<span class="str">u'done repair checking'</span>)
 
 
+@el.daemon(<span class="dig">21</span> * <span class="dig">60</span>)
+<span class="kw">def</span> farmSteel():
+    m = exists(imgs.mainMenuButtonReload)
+    <span class="kw">if</span> <span class="kw">not</span> m:
+        <span class="kw">return</span>
+    <span class="skw">click</span>(m)
+    <span class="skw">wait</span>(imgs.selectMenuLabel)
+    m = <span class="skw">find</span>(imgs.selectMenuSecondTeam)
+    <span class="skw">click</span>(m)
+    <span class="skw">click</span>(m.getTarget().left(<span class="dig">55</span>))
+    m = exists(imgs.selectMenuButtonReload)
+    <span class="kw">if</span> m:
+        <span class="cmt"># this team has not been reloaded
+</span>        <span class="skw">click</span>(m)
+        <span class="skw">wait</span>(<span class="dig">3</span>)
+    m = <span class="skw">find</span>(imgs.submenuButtonBack)
+    <span class="skw">click</span>(m)
+    hover(m.getTarget().left(<span class="dig">100</span>))
+
+    m = <span class="skw">wait</span>(imgs.mainMenuButtonGo, <span class="dig">20</span>)
+    <span class="skw">click</span>(m)
+    m = <span class="skw">wait</span>(imgs.goMenuButtonLongTrip, <span class="dig">20</span>)
+    <span class="skw">click</span>(m)
+    <span class="skw">click</span>(imgs.longTripMenuMission3)
+    <span class="skw">click</span>(imgs.longTripMenuButtonOk)
+    <span class="skw">click</span>(imgs.selectMenuSecondTeam)
+    <span class="skw">click</span>(imgs.longTripMenuButtonConfirm)
+    m = <span class="skw">find</span>(imgs.submenuButtonBack)
+    <span class="skw">click</span>(m)
+    hover(m.getTarget().left(<span class="dig">100</span>))
+
+
 dismissDMMError()
 dismissKanColleError()
 checkLongTrip()
 failMonitor()
 preventSleep()
 repair()
+farmSteel()
 </pre>
 </body>
 </html>
