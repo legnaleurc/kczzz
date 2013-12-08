@@ -98,6 +98,8 @@ THE SOFTWARE.
     <span class="kw">def</span> __init__(self):
         self._browser_alert = <img src="browser_alert.png" />
         self._browser_alert_button_cancel = <img src="browser_alert_button_cancel.png" />
+        self._flash_alert = <img src="flash_alert.png" />
+        self._flash_alert_button_yes = <img src="flash_alert_button_yes.png" />
         self._system_screen_error = <img src="system_screen_error.png" />
         self._system_button_start = <img src="system_button_start.png" />
 
@@ -130,6 +132,14 @@ THE SOFTWARE.
     @property
     <span class="kw">def</span> browserAlertButtonCancel(self):
         <span class="kw">return</span> self._browser_alert_button_cancel
+
+    @property
+    <span class="kw">def</span> flashAlert(self):
+        <span class="kw">return</span> self._flash_alert
+
+    @property
+    <span class="kw">def</span> flashAlertButtonYes(self):
+        <span class="kw">return</span> self._flash_alert_button_yes
 
     @property
     <span class="kw">def</span> systemScreenError(self):

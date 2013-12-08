@@ -26,6 +26,8 @@ class Library(object):
     def __init__(self):
         self._browser_alert = "browser_alert.png"
         self._browser_alert_button_cancel = "browser_alert_button_cancel.png"
+        self._flash_alert = "flash_alert.png"
+        self._flash_alert_button_yes = "flash_alert_button_yes.png"
         self._system_screen_error = "system_screen_error.png"
         self._system_button_start = "system_button_start.png"
         
@@ -58,6 +60,14 @@ class Library(object):
     @property
     def browserAlertButtonCancel(self):
         return self._browser_alert_button_cancel
+
+    @property
+    def flashAlert(self):
+        return self._flash_alert
+
+    @property
+    def flashAlertButtonYes(self):
+        return self._flash_alert_button_yes
 
     @property
     def systemScreenError(self):
