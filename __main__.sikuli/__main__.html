@@ -150,6 +150,7 @@ imgs = ui.Library()
 <span class="kw">def</span> refresh():
     <span class="skw">type</span>(Key.F5)
     a = <span class="skw">wait</span>(imgs.systemButtonStart, <span class="dig">30</span>)
+    <span class="skw">wait</span>(<span class="dig">5</span>)
     <span class="skw">click</span>(a)
     <span class="skw">wait</span>(imgs.mainMenuButtonGo, <span class="dig">30</span>)
 

@@ -78,6 +78,7 @@ def dismissDMMError():
 def refresh():
     type(Key.F5)
     a = wait(imgs.systemButtonStart, 30)
+    wait(5)
     click(a)
     wait(imgs.mainMenuButtonGo, 30)
 
