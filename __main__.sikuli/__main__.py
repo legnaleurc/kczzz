@@ -63,7 +63,7 @@ el = ticks.EventLoop()
 imgs = ui.Library()
 
 
-@el.daemon(10, 99L)
+@el.daemon(30, 5L)
 def dismissDMMError():
     logger.info(u'checking DMM error')
 
@@ -83,7 +83,7 @@ def refresh():
     wait(imgs.mainMenuButtonGo, 30)
 
 
-@el.daemon(10, 98L)
+@el.daemon(30, 4L)
 def dismissKanColleError():
     logger.info(u'checking KanColle error')
 
@@ -109,7 +109,7 @@ def dismissKanColleError():
     logger.info(u'done KanColle error checking')
 
 
-@el.daemon(10, 97L)
+@el.daemon(30, 3L)
 def checkLongTrip():
     logger.info(u'checking long trip')
 
@@ -132,7 +132,7 @@ def checkLongTrip():
     logger.info(u'done long trip checking')
 
 
-@el.daemon(10)
+@el.daemon(30)
 def preventSleep():
     logger.info(u'start prevent sleep')
 
@@ -143,7 +143,7 @@ def preventSleep():
     logger.info(u'prevent sleep done')
 
 
-@el.daemon(10)
+@el.daemon(30)
 def failMonitor():
     logger.info(u'start fail monitor')
 

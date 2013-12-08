@@ -135,7 +135,7 @@ el = ticks.EventLoop()
 imgs = ui.Library()
 
 
-@el.daemon(<span class="dig">10</span>, <span class="dig">99L</span>)
+@el.daemon(<span class="dig">30</span>, <span class="dig">5L</span>)
 <span class="kw">def</span> dismissDMMError():
     logger.info(<span class="str">u'checking DMM error'</span>)
 
@@ -155,7 +155,7 @@ imgs = ui.Library()
     <span class="skw">wait</span>(imgs.mainMenuButtonGo, <span class="dig">30</span>)
 
 
-@el.daemon(<span class="dig">10</span>, <span class="dig">98L</span>)
+@el.daemon(<span class="dig">30</span>, <span class="dig">4L</span>)
 <span class="kw">def</span> dismissKanColleError():
     logger.info(<span class="str">u'checking KanColle error'</span>)
 
@@ -181,7 +181,7 @@ imgs = ui.Library()
     logger.info(<span class="str">u'done KanColle error checking'</span>)
 
 
-@el.daemon(<span class="dig">10</span>, <span class="dig">97L</span>)
+@el.daemon(<span class="dig">30</span>, <span class="dig">3L</span>)
 <span class="kw">def</span> checkLongTrip():
     logger.info(<span class="str">u'checking long trip'</span>)
 
@@ -204,7 +204,7 @@ imgs = ui.Library()
     logger.info(<span class="str">u'done long trip checking'</span>)
 
 
-@el.daemon(<span class="dig">10</span>)
+@el.daemon(<span class="dig">30</span>)
 <span class="kw">def</span> preventSleep():
     logger.info(<span class="str">u'start prevent sleep'</span>)
 
@@ -215,7 +215,7 @@ imgs = ui.Library()
     logger.info(<span class="str">u'prevent sleep done'</span>)
 
 
-@el.daemon(<span class="dig">10</span>)
+@el.daemon(<span class="dig">30</span>)
 <span class="kw">def</span> failMonitor():
     logger.info(<span class="str">u'start fail monitor'</span>)
 
