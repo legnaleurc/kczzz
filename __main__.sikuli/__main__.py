@@ -88,8 +88,12 @@ def dismissKanColleError():
     logger.info(u'checking KanColle error')
 
     a = exists(imgs.systemScreenError)
+    b = exists(imgs.flashAlert)
     if a:
         a = False
+    elif b:
+        a = False
+        click(imgs.flashAlertButtonYes)
     else:
         try:
             a = wait(imgs.mainMenuButtonGo, 30)

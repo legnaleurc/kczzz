@@ -160,8 +160,12 @@ imgs = ui.Library()
     logger.info(<span class="str">u'checking KanColle error'</span>)
 
     a = exists(imgs.systemScreenError)
+    b = exists(imgs.flashAlert)
     <span class="kw">if</span> a:
         a = False
+    <span class="kw">elif</span> b:
+        a = False
+        <span class="skw">click</span>(imgs.flashAlertButtonYes)
     <span class="kw">else</span>:
         <span class="kw">try</span>:
             a = <span class="skw">wait</span>(imgs.mainMenuButtonGo, <span class="dig">30</span>)
