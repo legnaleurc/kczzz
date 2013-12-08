@@ -249,6 +249,9 @@ _MARK = <span class="str">u'/tmp/stop'</span>
 
         self._el.post(self._sec, self._cb, self._priority)
 
+    <span class="kw">def</span> promote(self):
+        self._priority = self._priority + <span class="dig">1</span>
+
 
 <span class="kw">class</span> _Worker(threading.Thread):
 
@@ -271,6 +274,8 @@ _MARK = <span class="str">u'/tmp/stop'</span>
                 self._queueLock.acquire()
                 <span class="kw">if</span> len(self._queue) &gt; <span class="dig">0</span>:
                     task = heapq.heappop(self._queue)
+                    <span class="kw">for</span> t <span class="kw">in</span> self._queue:
+                        t.promote()
                 <span class="kw">else</span>:
                     task = None
                 <span class="cmt"># actions may take a long time

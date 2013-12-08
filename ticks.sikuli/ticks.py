@@ -177,6 +177,9 @@ class _Task(object):
 
         self._el.post(self._sec, self._cb, self._priority)
 
+    def promote(self):
+        self._priority = self._priority + 1
+
 
 class _Worker(threading.Thread):
 
@@ -199,6 +202,8 @@ class _Worker(threading.Thread):
                 self._queueLock.acquire()
                 if len(self._queue) > 0:
                     task = heapq.heappop(self._queue)
+                    for t in self._queue:
+                        t.promote()
                 else:
                     task = None
                 # actions may take a long time
