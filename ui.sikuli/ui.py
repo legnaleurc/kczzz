@@ -43,8 +43,10 @@ class Library(object):
         self._long_trip_menu_button_ok = "long_trip_menu_button_ok.png"
         self._long_trip_menu_button_confirm = "long_trip_menu_button_confirm.png"
         self._long_trip_menu_mission_3 = "long_trip_menu_mission_3.png"
+        self._long_trip_menu_mission_5 = "long_trip_menu_mission_5.png"
         self._select_menu_label = "select_menu_label.png"
         self._select_menu_second_team = "select_menu_second_team.png"
+        self._select_menu_third_team = "select_menu_third_team.png"
         self._select_menu_button_reload = "select_menu_button_reload.png"
         self._dock_menu_label = "dock_menu_label.png"
         self._dock_button_empty_slot = "dock_button_empty_slot.png"
@@ -126,12 +128,20 @@ class Library(object):
         return self._long_trip_menu_mission_3
 
     @property
+    def longTripMenuMission5(self):
+        return self._long_trip_menu_mission_5
+
+    @property
     def selectMenuLabel(self):
         return self._select_menu_label
 
     @property
     def selectMenuSecondTeam(self):
         return self._select_menu_second_team
+
+    @property
+    def selectMenuThirdTeam(self):
+        return self._select_menu_third_team
 
     @property
     def selectMenuButtonReload(self):

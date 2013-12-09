@@ -115,8 +115,10 @@ THE SOFTWARE.
         self._long_trip_menu_button_ok = <img src="long_trip_menu_button_ok.png" />
         self._long_trip_menu_button_confirm = <img src="long_trip_menu_button_confirm.png" />
         self._long_trip_menu_mission_3 = <img src="long_trip_menu_mission_3.png" />
+        self._long_trip_menu_mission_5 = <img src="long_trip_menu_mission_5.png" />
         self._select_menu_label = <img src="select_menu_label.png" />
         self._select_menu_second_team = <img src="select_menu_second_team.png" />
+        self._select_menu_third_team = <img src="select_menu_third_team.png" />
         self._select_menu_button_reload = <img src="select_menu_button_reload.png" />
         self._dock_menu_label = <img src="dock_menu_label.png" />
         self._dock_button_empty_slot = <img src="dock_button_empty_slot.png" />
@@ -198,12 +200,20 @@ THE SOFTWARE.
         <span class="kw">return</span> self._long_trip_menu_mission_3
 
     @property
+    <span class="kw">def</span> longTripMenuMission5(self):
+        <span class="kw">return</span> self._long_trip_menu_mission_5
+
+    @property
     <span class="kw">def</span> selectMenuLabel(self):
         <span class="kw">return</span> self._select_menu_label
 
     @property
     <span class="kw">def</span> selectMenuSecondTeam(self):
         <span class="kw">return</span> self._select_menu_second_team
+
+    @property
+    <span class="kw">def</span> selectMenuThirdTeam(self):
+        <span class="kw">return</span> self._select_menu_third_team
 
     @property
     <span class="kw">def</span> selectMenuButtonReload(self):
