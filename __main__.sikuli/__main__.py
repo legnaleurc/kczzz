@@ -259,6 +259,38 @@ def farmSteel():
     hover(m.getTarget().left(100))
 
 
+@el.daemon(91 * 60)
+def farmFuel():
+    m = exists(imgs.mainMenuButtonReload)
+    if not m:
+        return
+    click(m)
+    wait(imgs.selectMenuLabel)
+    m = find(imgs.selectMenuThirdTeam)
+    click(m)
+    click(m.getTarget().left(85))
+    m = exists(imgs.selectMenuButtonReload)
+    if m:
+        # this team has not been reloaded
+        click(m)
+        wait(3)
+    m = find(imgs.submenuButtonBack)
+    click(m)
+    hover(m.getTarget().left(100))
+
+    m = wait(imgs.mainMenuButtonGo, 20)
+    click(m)
+    m = wait(imgs.goMenuButtonLongTrip, 20)
+    click(m)
+    click(imgs.longTripMenuMission5)
+    click(imgs.longTripMenuButtonOk)
+    click(imgs.selectMenuThirdTeam)
+    click(imgs.longTripMenuButtonConfirm)
+    m = find(imgs.submenuButtonBack)
+    click(m)
+    hover(m.getTarget().left(100))
+
+
 dismissDMMError()
 dismissKanColleError()
 checkLongTrip()
@@ -266,3 +298,4 @@ failMonitor()
 preventSleep()
 repair()
 farmSteel()
+farmFuel()
