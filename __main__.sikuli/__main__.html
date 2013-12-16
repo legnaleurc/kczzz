@@ -137,15 +137,10 @@ imgs = ui.Library()
 
 @el.daemon(<span class="dig">30</span>, <span class="dig">5L</span>)
 <span class="kw">def</span> dismissDMMError():
-    logger.info(<span class="str">u'checking DMM error'</span>)
-
     <span class="kw">if</span> exists(imgs.browserAlert):
-        logger.info(<span class="str">u'found DMM error'</span>)
+        logger.warn(<span class="str">u'found DMM error'</span>)
 
         <span class="skw">click</span>(imgs.browserAlertButtonCancel)
-
-    logger.info(<span class="str">u'done DMM error checking'</span>)
-
 
 <span class="kw">def</span> refresh():
     <span class="skw">type</span>(Key.F5)
@@ -157,8 +152,6 @@ imgs = ui.Library()
 
 @el.daemon(<span class="dig">30</span>, <span class="dig">4L</span>)
 <span class="kw">def</span> dismissKanColleError():
-    logger.info(<span class="str">u'checking KanColle error'</span>)
-
     a = exists(imgs.systemScreenError)
     b = exists(imgs.flashAlert)
     <span class="kw">if</span> a:
@@ -174,17 +167,13 @@ imgs = ui.Library()
             a = False
 
     <span class="kw">if</span> <span class="kw">not</span> a:
-        logger.info(<span class="str">u'found KanColle error'</span>)
+        logger.warn(<span class="str">u'found KanColle error'</span>)
 
         refresh()
-
-    logger.info(<span class="str">u'done KanColle error checking'</span>)
 
 
 @el.daemon(<span class="dig">30</span>, <span class="dig">3L</span>)
 <span class="kw">def</span> checkLongTrip():
-    logger.info(<span class="str">u'checking long trip'</span>)
-
     a = exists(imgs.mainMenuLabelLongTripDone)
     b = exists(imgs.longTripScreenSucceed)
     c = exists(imgs.longTripScreenFailed)
@@ -201,24 +190,16 @@ imgs = ui.Library()
         <span class="skw">click</span>(a)
         <span class="skw">wait</span>(imgs.mainMenuButtonGo, <span class="dig">30</span>)
 
-    logger.info(<span class="str">u'done long trip checking'</span>)
-
 
 @el.daemon(<span class="dig">30</span>)
 <span class="kw">def</span> preventSleep():
-    logger.info(<span class="str">u'start prevent sleep'</span>)
-
     a = Env.getMouseLocation()
     hover(a.above(<span class="dig">100</span>))
     hover(a)
 
-    logger.info(<span class="str">u'prevent sleep done'</span>)
-
 
 @el.daemon(<span class="dig">30</span>)
 <span class="kw">def</span> failMonitor():
-    logger.info(<span class="str">u'start fail monitor'</span>)
-
     <span class="cmt"># go to main menu
 </span>    a = <span class="skw">find</span>(imgs.submenuButtonBack)
     <span class="skw">click</span>(a)
@@ -228,16 +209,11 @@ imgs = ui.Library()
     <span class="cmt"># ensure it is in main menu, i.e. initial state
 </span>    <span class="skw">wait</span>(imgs.mainMenuButtonGo, <span class="dig">20</span>)
 
-    logger.info(<span class="str">u'fail monitor done'</span>)
-
 
 @el.daemon(<span class="dig">60</span>)
 <span class="kw">def</span> repair():
-    logger.info(<span class="str">u'start repair checking'</span>)
-
     a = exists(imgs.mainMenuButtonRepair)
     <span class="kw">if</span> <span class="kw">not</span> a:
-        logger.info(<span class="str">u'done repair checking'</span>)
         <span class="kw">return</span>
     <span class="skw">click</span>(a)
     <span class="skw">wait</span>(imgs.dockMenuLabel, <span class="dig">20</span>)
@@ -296,11 +272,10 @@ imgs = ui.Library()
     <span class="cmt"># ensure it is in main menu, i.e. initial state
 </span>    <span class="skw">wait</span>(imgs.mainMenuButtonGo, <span class="dig">20</span>)
 
-    logger.info(<span class="str">u'done repair checking'</span>)
-
 
 @el.daemon(<span class="dig">21</span> * <span class="dig">60</span>)
 <span class="kw">def</span> farmSteel():
+    logger.info(<span class="str">'start farm steel'</span>)
     m = exists(imgs.mainMenuButtonReload)
     <span class="kw">if</span> <span class="kw">not</span> m:
         <span class="kw">return</span>
@@ -329,10 +304,12 @@ imgs = ui.Library()
     m = <span class="skw">find</span>(imgs.submenuButtonBack)
     <span class="skw">click</span>(m)
     hover(m.getTarget().left(<span class="dig">100</span>))
+    logger.info(<span class="str">'end farm steel'</span>)
 
 
 @el.daemon(<span class="dig">91</span> * <span class="dig">60</span>)
 <span class="kw">def</span> farmFuel():
+    logger.info(<span class="str">'start farm fuel'</span>)
     m = exists(imgs.mainMenuButtonReload)
     <span class="kw">if</span> <span class="kw">not</span> m:
         <span class="kw">return</span>
@@ -361,6 +338,7 @@ imgs = ui.Library()
     m = <span class="skw">find</span>(imgs.submenuButtonBack)
     <span class="skw">click</span>(m)
     hover(m.getTarget().left(<span class="dig">100</span>))
+    logger.info(<span class="str">'end farm fuel'</span>)
 
 
 dismissDMMError()

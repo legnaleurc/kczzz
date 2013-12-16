@@ -65,15 +65,10 @@ imgs = ui.Library()
 
 @el.daemon(30, 5L)
 def dismissDMMError():
-    logger.info(u'checking DMM error')
-
     if exists(imgs.browserAlert):
-        logger.info(u'found DMM error')
+        logger.warn(u'found DMM error')
 
         click(imgs.browserAlertButtonCancel)
-
-    logger.info(u'done DMM error checking')
-
 
 def refresh():
     type(Key.F5)
@@ -85,8 +80,6 @@ def refresh():
 
 @el.daemon(30, 4L)
 def dismissKanColleError():
-    logger.info(u'checking KanColle error')
-
     a = exists(imgs.systemScreenError)
     b = exists(imgs.flashAlert)
     if a:
@@ -102,17 +95,13 @@ def dismissKanColleError():
             a = False
 
     if not a:
-        logger.info(u'found KanColle error')
+        logger.warn(u'found KanColle error')
 
         refresh()
-
-    logger.info(u'done KanColle error checking')
 
 
 @el.daemon(30, 3L)
 def checkLongTrip():
-    logger.info(u'checking long trip')
-
     a = exists(imgs.mainMenuLabelLongTripDone)
     b = exists(imgs.longTripScreenSucceed)
     c = exists(imgs.longTripScreenFailed)
@@ -129,24 +118,16 @@ def checkLongTrip():
         click(a)
         wait(imgs.mainMenuButtonGo, 30)
 
-    logger.info(u'done long trip checking')
-
 
 @el.daemon(30)
 def preventSleep():
-    logger.info(u'start prevent sleep')
-
     a = Env.getMouseLocation()
     hover(a.above(100))
     hover(a)
 
-    logger.info(u'prevent sleep done')
-
 
 @el.daemon(30)
 def failMonitor():
-    logger.info(u'start fail monitor')
-
     # go to main menu
     a = find(imgs.submenuButtonBack)
     click(a)
@@ -156,16 +137,11 @@ def failMonitor():
     # ensure it is in main menu, i.e. initial state
     wait(imgs.mainMenuButtonGo, 20)
 
-    logger.info(u'fail monitor done')
-
 
 @el.daemon(60)
 def repair():
-    logger.info(u'start repair checking')
-
     a = exists(imgs.mainMenuButtonRepair)
     if not a:
-        logger.info(u'done repair checking')
         return
     click(a)
     wait(imgs.dockMenuLabel, 20)
@@ -224,11 +200,10 @@ def repair():
     # ensure it is in main menu, i.e. initial state
     wait(imgs.mainMenuButtonGo, 20)
 
-    logger.info(u'done repair checking')
-
 
 @el.daemon(21 * 60)
 def farmSteel():
+    logger.info('start farm steel')
     m = exists(imgs.mainMenuButtonReload)
     if not m:
         return
@@ -257,10 +232,12 @@ def farmSteel():
     m = find(imgs.submenuButtonBack)
     click(m)
     hover(m.getTarget().left(100))
+    logger.info('end farm steel')
 
 
 @el.daemon(91 * 60)
 def farmFuel():
+    logger.info('start farm fuel')
     m = exists(imgs.mainMenuButtonReload)
     if not m:
         return
@@ -289,6 +266,7 @@ def farmFuel():
     m = find(imgs.submenuButtonBack)
     click(m)
     hover(m.getTarget().left(100))
+    logger.info('end farm fuel')
 
 
 dismissDMMError()
