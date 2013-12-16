@@ -43,6 +43,9 @@ class EventLoop(object):
     def every(self, sec, cb, priority=0L):
         self._el.post(sec, cb, priority)
 
+    def exec_(self):
+        self._el.exec_()
+
 
 _MARK = u'/tmp/stop'
 
@@ -64,10 +67,10 @@ class _EventLoop(object):
         # it will only run one job at a time
         self._worker = _Worker(self)
 
-        self._worker.start()
-
+    def exec_(self):
         # check terminate condition every 0.5 sec
         self.post(0.5, self._check, 100L)
+        self._worker.start()
 
     def post(self, sec, cb, priority):
         task = _Task(self, sec, cb, priority)

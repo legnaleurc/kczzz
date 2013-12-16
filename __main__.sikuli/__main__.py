@@ -299,3 +299,5 @@ preventSleep()
 repair()
 farmSteel()
 farmFuel()
+
+el.exec_()

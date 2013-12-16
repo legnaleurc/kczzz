@@ -115,6 +115,9 @@ THE SOFTWARE.
     <span class="kw">def</span> every(self, sec, cb, priority=<span class="dig">0L</span>):
         self._el.post(sec, cb, priority)
 
+    <span class="kw">def</span> exec_(self):
+        self._el.exec_()
+
 
 _MARK = <span class="str">u'/tmp/stop'</span>
 
@@ -136,10 +139,10 @@ _MARK = <span class="str">u'/tmp/stop'</span>
 </span>        <span class="cmt"># it will only run one job at a time
 </span>        self._worker = _Worker(self)
 
-        self._worker.start()
-
+    <span class="kw">def</span> exec_(self):
         <span class="cmt"># check terminate condition every 0.5 sec
 </span>        self.post(<span class="dig">0.5</span>, self._check, <span class="dig">100L</span>)
+        self._worker.start()
 
     <span class="kw">def</span> post(self, sec, cb, priority):
         task = _Task(self, sec, cb, priority)
