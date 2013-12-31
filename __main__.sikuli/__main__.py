@@ -71,6 +71,9 @@ def dismissDMMError():
         click(imgs.browserAlertButtonCancel)
 
 def refresh():
+    a = find(imgs.outButton)
+    a = a.left(200)
+    click(a)
     type(Key.F5)
     a = wait(imgs.systemButtonStart, 30)
     wait(5)
@@ -225,6 +228,7 @@ def farmSteel():
     click(m)
     m = wait(imgs.goMenuButtonLongTrip, 20)
     click(m)
+    wait(2)
     click(imgs.longTripMenuMission3)
     click(imgs.longTripMenuButtonOk)
     click(imgs.selectMenuSecondTeam)
@@ -233,6 +237,79 @@ def farmSteel():
     click(m)
     hover(m.getTarget().left(100))
     logger.info('end farm steel')
+
+
+@el.daemon(121 * 60)
+def farmSteel2():
+    logger.info('start farm steel 2')
+    m = exists(imgs.mainMenuButtonReload)
+    if not m:
+        return
+    click(m)
+    wait(imgs.selectMenuLabel)
+    m = find(imgs.selectMenuForthTeam)
+    click(m)
+    click(m.getTarget().left(115))
+    m = exists(imgs.selectMenuButtonReload)
+    if m:
+        # this team has not been reloaded
+        click(m)
+        wait(3)
+    m = find(imgs.submenuButtonBack)
+    click(m)
+    hover(m.getTarget().left(100))
+
+    m = wait(imgs.mainMenuButtonGo, 20)
+    click(m)
+    m = wait(imgs.goMenuButtonLongTrip, 20)
+    click(m)
+    wait(2)
+    click(imgs.longTripMenuStage3)
+    click(imgs.longTripMenuMission20)
+    click(imgs.longTripMenuButtonOk)
+    click(imgs.selectMenuForthTeam)
+    click(imgs.longTripMenuButtonConfirm)
+    m = find(imgs.submenuButtonBack)
+    click(m)
+    hover(m.getTarget().left(100))
+    logger.info('end farm steel 2')
+
+
+@el.daemon(41 * 60)
+def farmSteel3():
+    logger.info('start farm steel 3')
+    m = exists(imgs.mainMenuButtonReload)
+    if not m:
+        return
+    click(m)
+    wait(imgs.selectMenuLabel)
+    m = find(imgs.selectMenuForthTeam)
+    click(m)
+    click(m.getTarget().left(115))
+    m = exists(imgs.selectMenuButtonReload)
+    if m:
+        # this team has not been reloaded
+        click(m)
+        wait(3)
+    m = find(imgs.submenuButtonBack)
+    click(m)
+    hover(m.getTarget().left(100))
+
+    m = wait(imgs.mainMenuButtonGo, 20)
+    click(m)
+    m = wait(imgs.goMenuButtonLongTrip, 20)
+    click(m)
+    wait(2)
+    click(imgs.longTripMenuStage3)
+    click(imgs.longTripMenuMission17)
+    click(imgs.longTripMenuButtonOk)
+    wait(2)
+    click(imgs.selectMenuForthTeam)
+    click(imgs.longTripMenuButtonConfirm)
+    m = find(imgs.submenuButtonBack)
+    click(m)
+    hover(m.getTarget().left(100))
+    logger.info('end farm steel 3')
 
 
 @el.daemon(91 * 60)
@@ -259,6 +336,7 @@ def farmFuel():
     click(m)
     m = wait(imgs.goMenuButtonLongTrip, 20)
     click(m)
+    wait(2)
     click(imgs.longTripMenuMission5)
     click(imgs.longTripMenuButtonOk)
     click(imgs.selectMenuThirdTeam)
@@ -269,6 +347,111 @@ def farmFuel():
     logger.info('end farm fuel')
 
 
+@el.daemon(241 * 60)
+def farmFuel2():
+    logger.info('start farm fuel 2')
+    m = exists(imgs.mainMenuButtonReload)
+    if not m:
+        return
+    click(m)
+    wait(imgs.selectMenuLabel)
+    m = find(imgs.selectMenuSecondTeam)
+    click(m)
+    click(m.getTarget().left(55))
+    m = exists(imgs.selectMenuButtonReload)
+    if m:
+        # this team has not been reloaded
+        click(m)
+        wait(3)
+    m = find(imgs.submenuButtonBack)
+    click(m)
+    hover(m.getTarget().left(100))
+
+    m = wait(imgs.mainMenuButtonGo, 20)
+    click(m)
+    m = wait(imgs.goMenuButtonLongTrip, 20)
+    click(m)
+    wait(2)
+    click(imgs.longTripMenuStage2)
+    click(imgs.longTripMenuMission9)
+    click(imgs.longTripMenuButtonOk)
+    click(imgs.selectMenuSecondTeam)
+    click(imgs.longTripMenuButtonConfirm)
+    m = find(imgs.submenuButtonBack)
+    click(m)
+    hover(m.getTarget().left(100))
+    logger.info('end farm fuel 2')
+
+
+@el.daemon(41 * 60)
+def farmAl():
+    logger.info('start farm al')
+    m = exists(imgs.mainMenuButtonReload)
+    if not m:
+        return
+    click(m)
+    wait(imgs.selectMenuLabel)
+    m = find(imgs.selectMenuForthTeam)
+    click(m)
+    click(m.getTarget().left(115))
+    m = exists(imgs.selectMenuButtonReload)
+    if m:
+        # this team has not been reloaded
+        click(m)
+        wait(3)
+    m = find(imgs.submenuButtonBack)
+    click(m)
+    hover(m.getTarget().left(100))
+
+    m = wait(imgs.mainMenuButtonGo, 20)
+    click(m)
+    m = wait(imgs.goMenuButtonLongTrip, 20)
+    click(m)
+    wait(2)
+    click(imgs.longTripMenuMission6)
+    click(imgs.longTripMenuButtonOk)
+    click(imgs.selectMenuForthTeam)
+    click(imgs.longTripMenuButtonConfirm)
+    m = find(imgs.submenuButtonBack)
+    click(m)
+    hover(m.getTarget().left(100))
+    logger.info('end farm al')
+
+
+@el.daemon(31 * 60)
+def farmBullet():
+    logger.info('start farm bullet')
+    m = exists(imgs.mainMenuButtonReload)
+    if not m:
+        return
+    click(m)
+    wait(imgs.selectMenuLabel)
+    m = find(imgs.selectMenuForthTeam)
+    click(m)
+    click(m.getTarget().left(115))
+    m = exists(imgs.selectMenuButtonReload)
+    if m:
+        # this team has not been reloaded
+        click(m)
+        wait(3)
+    m = find(imgs.submenuButtonBack)
+    click(m)
+    hover(m.getTarget().left(100))
+
+    m = wait(imgs.mainMenuButtonGo, 20)
+    click(m)
+    m = wait(imgs.goMenuButtonLongTrip, 20)
+    click(m)
+    click(imgs.longTripMenuMission2)
+    click(imgs.longTripMenuButtonOk)
+    wait(2)
+    click(imgs.selectMenuForthTeam)
+    click(imgs.longTripMenuButtonConfirm)
+    m = find(imgs.submenuButtonBack)
+    click(m)
+    hover(m.getTarget().left(100))
+    logger.info('end farm bullet')
+
 dismissDMMError()
 dismissKanColleError()
 checkLongTrip()
@@ -276,6 +459,11 @@ failMonitor()
 preventSleep()
 repair()
 farmSteel()
+#farmSteel2()
+#farmSteel3()
 farmFuel()
+#farmAl()
+#farmFuel2()
+farmBullet()
 
 el.exec_()
