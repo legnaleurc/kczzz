@@ -127,11 +127,22 @@ class Library(object):
     def longTripMenuStage(self, id_):
         return self._long_trip_menu_stage[id_]
 
+    def longTripMenu(self, id_):
+        stage = None
+        if id_ >= 9 and id_ <= 16:
+            stage = 2
+        elif id_ >= 17 and id_ <= 20:
+            stage = 3
+        mission = self.longTripMenuMission(id_)
+        if stage:
+            stage = self.longTripMenuStage(stage)
+        return stage, mission
+
     @property
     def selectMenuLabel(self):
         return "select_menu_label.png"
 
-    def selectMenuSecondTeam(self, id_):
+    def selectMenuTeam(self, id_):
         return self._select_menu_team[id_]
 
     @property

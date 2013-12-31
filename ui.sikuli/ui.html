@@ -199,11 +199,22 @@ THE SOFTWARE.
     <span class="kw">def</span> longTripMenuStage(self, id_):
         <span class="kw">return</span> self._long_trip_menu_stage[id_]
 
+    <span class="kw">def</span> longTripMenu(self, id_):
+        stage = None
+        <span class="kw">if</span> id_ &gt;= <span class="dig">9</span> <span class="kw">and</span> id_ &lt;= <span class="dig">16</span>:
+            stage = <span class="dig">2</span>
+        <span class="kw">elif</span> id_ &gt;= <span class="dig">17</span> <span class="kw">and</span> id_ &lt;= <span class="dig">20</span>:
+            stage = <span class="dig">3</span>
+        mission = self.longTripMenuMission(id_)
+        <span class="kw">if</span> stage:
+            stage = self.longTripMenuStage(stage)
+        <span class="kw">return</span> stage, mission
+
     @property
     <span class="kw">def</span> selectMenuLabel(self):
         <span class="kw">return</span> <img src="select_menu_label.png" />
 
-    <span class="kw">def</span> selectMenuSecondTeam(self, id_):
+    <span class="kw">def</span> selectMenuTeam(self, id_):
         <span class="kw">return</span> self._select_menu_team[id_]
 
     @property
