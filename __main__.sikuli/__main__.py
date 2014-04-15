@@ -45,14 +45,23 @@ class Action(object):
 
 
     def refresh(self):
-        a = find(self._imgs.outButton)
-        a = a.left(200)
-        click(a)
-        type(Key.F5)
-        a = wait(self._imgs.systemButtonStart, 30)
-        wait(5)
-        click(a)
-        wait(self._imgs.mainMenuButtonGo, 30)
+        while True:
+            # hard refresh
+            type('l', Key.META)
+#            type('http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/')
+            type(Key.ENTER)
+            try:
+                a = wait(self._imgs.systemButtonStart, 60)
+                wait(20)
+                click(a)
+                wait(3)
+                click(a)
+                wait(3)
+                click(a)
+                wait(self._imgs.mainMenuButtonGo, 120)
+                break
+            except:
+                pass
 
 
     def reloadTeam(self, teamID):
@@ -122,7 +131,7 @@ class Action(object):
             click(self._imgs.flashAlertButtonYes)
         else:
             try:
-                a = wait(self._imgs.mainMenuButtonGo, 30)
+                a = wait(self._imgs.mainMenuButtonGo, 60)
                 a = True
             except:
                 a = False
@@ -130,15 +139,16 @@ class Action(object):
         if not a:
             self._logger.warn(u'found KanColle error')
 
-            refresh()
+            self.refresh()
 
 
     def checkLongTrip(self):
         a = exists(self._imgs.mainMenuLabelLongTripDone)
-        b = exists(self._imgs.longTripScreenSucceed)
-        c = exists(self._imgs.longTripScreenFailed)
-        d = exists(self._imgs.longTripScreenButtonNext)
-        a = a or b or c or d
+        b = exists(self._imgs.longTripScreenGreatSucceed)
+        c = exists(self._imgs.longTripScreenSucceed)
+        d = exists(self._imgs.longTripScreenFailed)
+        e = exists(self._imgs.longTripScreenButtonNext)
+        a = a or b or c or d or e
 
         if a:
             self._logger.info(u'a long trip has been done')
@@ -197,6 +207,9 @@ class Action(object):
                 while True:
                     # search repairing icon in this area
                     a = r.exists(self._imgs.dockTableLabelRepairing)
+                    if not a:
+                        # search traveling icon in this area
+                        a = r.exists(self._imgs.dockTableLabelTraveling)
                     if a:
                         # move to next row
                         r = r.offset(Location(0, trGap * 2))
@@ -240,12 +253,17 @@ a.every(30, a.preventSleep)
 
 a.every(60, a.repair)
 
-#a.every(21 * 60, lambda: a.farm(teamID=2, missionID=3))
+a.every(21 * 60, lambda: a.farm(teamID=2, missionID=3))
 #a.every(121 * 60, lambda: a.farm(teamID=4, missionID=20))
-a.every(41 * 60, lambda: a.farm(teamID=4, missionID=17))
-a.every(91 * 60, lambda: a.farm(teamID=3, missionID=5))
+#a.every(46 * 60, lambda: a.farm(teamID=4, missionID=17))
+#a.every(91 * 60, lambda: a.farm(teamID=2, missionID=5))
 #a.every(41 * 60, lambda: a.farm(teamID=4, missionID=6))
-a.every(241 * 60, lambda: a.farm(teamID=2, missionID=9))
-#a.every(31 * 60, lambda: a.farm(teamID=4, missionID=2))
+#a.every(241 * 60, lambda: a.farm(teamID=3, missionID=9))
+#a.every(31 * 60, lambda: a.farm(teamID=2, missionID=2))
+#a.every(301 * 60, lambda: a.farm(teamID=3, missionID=11))
+#a.every(141 * 60, lambda: a.farm(teamID=4, missionID=21))
+#a.every(181 * 60, lambda: a.farm(teamID=4, missionID=22))
+a.every(166 * 60, lambda: a.farm(teamID=3, missionID=37))
+a.every(176 * 60, lambda: a.farm(teamID=4, missionID=38))
 
 a.exec_()

@@ -35,12 +35,18 @@ class Library(object):
             5: "long_trip_menu_mission_5.png",
             6: "long_trip_menu_mission_6.png",
             9: "long_trip_menu_mission_9.png",
+            11: "long_trip_menu_mission_11.png",
             17: "long_trip_menu_mission_17.png",
             20: "long_trip_menu_mission_20.png",
+            21: "long_trip_menu_mission_21.png",
+            22: "long_trip_menu_mission_22.png",
+            37: "long_trip_menu_mission_37.png",
+            38: "long_trip_menu_mission_38.png",
         }
         self._long_trip_menu_stage = {
             2: "long_trip_menu_stage_2.png",
             3: "long_trip_menu_stage_3.png",
+            5: "long_trip_menu_stage_5.png",
         }
 
         self._select_menu_team = {
@@ -98,6 +104,10 @@ class Library(object):
         return "submenu_button_back.png"
 
     @property
+    def longTripScreenGreatSucceed(self):
+        return "long_trip_screen_great_succeed.png"
+
+    @property
     def longTripScreenSucceed(self):
         return "long_trip_screen_succeed.png"
 
@@ -128,13 +138,11 @@ class Library(object):
         return self._long_trip_menu_stage[id_]
 
     def longTripMenu(self, id_):
-        stage = None
-        if id_ >= 9 and id_ <= 16:
-            stage = 2
-        elif id_ >= 17 and id_ <= 20:
-            stage = 3
+        stage = (id_ - 1) / 8 + 1
         mission = self.longTripMenuMission(id_)
-        if stage:
+        if stage == 1:
+            stage = None
+        else:
             stage = self.longTripMenuStage(stage)
         return stage, mission
 
@@ -164,6 +172,10 @@ class Library(object):
     @property
     def dockTableLabelRepairing(self):
         return "dock_table_label_repairing.png"
+
+    @property
+    def dockTableLabelTraveling(self):
+        return "dock_table_label_traveling.png"
 
     @property
     def dockSubmenuStartRepair(self):
